@@ -293,7 +293,7 @@ const DemoOne = () => {
       </div>
 
       {/* What We Do Section */}
-      <section ref={whatWeDoRef} id="what-we-do" className="h-screen w-screen relative bg-black flex flex-col justify-center items-center">
+      <section ref={whatWeDoRef} id="what-we-do" className="min-h-screen w-screen relative bg-black flex flex-col justify-center items-center py-20">
         {/* Animated Dramatic Spotlight Effect */}
         <div className="absolute inset-0 bg-black">
           {/* Upper left transitional spotlight - extended to cover whole section */}
@@ -325,14 +325,14 @@ const DemoOne = () => {
           animate={isWhatWeDoInView ? "visible" : "hidden"}
         >
           <motion.h2 
-            className="text-6xl md:text-8xl font-bold text-white mb-12 tracking-wider"
+            className="text-6xl md:text-8xl font-bold text-white mb-16 tracking-wider"
             variants={titleVariants}
           >
             WHAT WE DO
           </motion.h2>
           
           <motion.div 
-            className="grid md:grid-cols-3 gap-12 mt-16"
+            className="grid md:grid-cols-3 gap-16 mt-20"
             variants={containerVariants}
           >
             {/* Buy */}
@@ -419,7 +419,7 @@ const DemoOne = () => {
       </section>
 
       {/* About Us Section */}
-      <section ref={aboutUsRef} id="about" className="h-screen w-screen relative bg-black flex items-center">
+      <section ref={aboutUsRef} id="about" className="min-h-screen w-screen relative bg-black flex items-center py-20">
         {/* Dramatic Spotlight Effect - matched to What We Do section */}
         <div className="absolute inset-0 bg-black">
           <motion.div 
@@ -437,7 +437,7 @@ const DemoOne = () => {
         </div>
 
         {/* Content */}
-        <div className="z-10 relative max-w-7xl mx-auto px-6 grid md:grid-cols-2 gap-16 items-center">
+        <div className="z-10 relative max-w-7xl mx-auto px-6 grid md:grid-cols-2 gap-20 items-center">
           {/* Left Side - Text */}
           <motion.div 
             className="text-left"
@@ -446,7 +446,7 @@ const DemoOne = () => {
             animate={isAboutUsInView ? "visible" : "hidden"}
           >
             <motion.h2 
-              className="text-6xl md:text-8xl font-bold text-white mb-8 tracking-wider"
+              className="text-6xl md:text-8xl font-bold text-white mb-12 tracking-wider"
               variants={titleVariants}
             >
               ABOUT COURTCYCLE
@@ -502,7 +502,7 @@ const DemoOne = () => {
       </section>
 
       {/* Our Mission Section */}
-      <section ref={missionRef} id="mission" className="h-screen w-screen relative bg-black flex items-center">
+      <section ref={missionRef} id="mission" className="min-h-screen w-screen relative bg-black flex items-center py-20">
         {/* Dramatic Spotlight Effect - unique to Mission section */}
         <div className="absolute inset-0 bg-black">
           <motion.div 
@@ -528,7 +528,7 @@ const DemoOne = () => {
             animate={isMissionInView ? "visible" : "hidden"}
           >
             <motion.h2 
-              className="text-6xl md:text-8xl font-bold text-white mb-12 tracking-wider"
+              className="text-6xl md:text-8xl font-bold text-white mb-16 tracking-wider"
               variants={titleVariants}
             >
               OUR MISSION
