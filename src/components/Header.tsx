@@ -3,7 +3,7 @@
 import { useState } from "react"
 import { useAuth } from "@/contexts/AuthContext"
 import AuthModal from "@/components/Auth/AuthModal"
-import { User, LogOut } from "lucide-react"
+import Link from 'next/link'
 
 export default function Header() {
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false)
@@ -34,30 +34,30 @@ export default function Header() {
 
           {/* Navigation Links - Center, moved down much more */}
           <nav className="flex items-center space-x-12 mt-16">
-            <a 
+            <Link 
               href="/" 
               className="text-white font-bold text-2xl uppercase tracking-wider hover:opacity-70 transition-opacity"
             >
               Home
-            </a>
-          <a 
+            </Link>
+          <Link 
             href="#about" 
             className="text-white font-bold text-2xl uppercase tracking-wider hover:opacity-70 transition-opacity"
           >
             About
-          </a>
-          <a 
+          </Link>
+          <Link 
             href="#what-we-do" 
             className="text-white font-bold text-2xl uppercase tracking-wider hover:opacity-70 transition-opacity"
           >
             What We Do
-          </a>
-          <a 
+          </Link>
+          <Link 
             href="#mission" 
             className="text-white font-bold text-2xl uppercase tracking-wider hover:opacity-70 transition-opacity"
           >
             Our Mission
-          </a>
+          </Link>
         </nav>
 
         {/* Right Side - Empty for balance */}

@@ -473,7 +473,7 @@ const DemoOne = () => {
               variants={textVariants}
               transition={{ delay: 0.6 }}
             >
-              This is not just a marketplace. It's a community built for the game, built to empower the next generation.
+              This is not just a marketplace. It&apos;s a community built for the game, built to empower the next generation.
             </motion.p>
           </motion.div>
 
@@ -615,7 +615,7 @@ const DemoOne = () => {
                   whileHover={{ scale: 1.05 }}
                   transition={{ duration: 0.3 }}
                 >
-                  Buy. Sell. Play. Give back. That's the cycle.
+                  Buy. Sell. Play. Give back. That&apos;s the cycle.
                 </motion.p>
               </motion.div>
             </motion.div>

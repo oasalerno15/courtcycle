@@ -15,10 +15,21 @@ function CarboflexModel({ onPositionChange, onRotationChange }) {
   
   // Load STL file manually
   useEffect(() => {
-    const loader = new (require('three/examples/jsm/loaders/STLLoader').STLLoader)();
-    loader.load('/Carboflex Cannonball to size.stl', (loadedGeometry) => {
-      setGeometry(loadedGeometry);
-    });
+    const loadModel = async () => {
+      try {
+        // Dynamic import to avoid build issues
+        const { STLLoader } = await import('three/examples/jsm/loaders/STLLoader.js');
+        const loader = new STLLoader();
+        
+        loader.load('/Carboflex Cannonball to size.stl', (geometry) => {
+          setGeometry(geometry);
+        });
+      } catch (error) {
+        console.error('Error loading STL file:', error);
+      }
+    };
+    
+    loadModel();
   }, []);
   
   // Create material for the racket - no hover effects

@@ -45,21 +45,36 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   }, [])
 
   const signInWithGoogle = async () => {
-    await supabase.auth.signInWithOAuth({
-      provider: 'google',
-      options: {
-        redirectTo: `${window.location.origin}/auth/callback`
-      }
-    })
-  }
+    try {
+      const { data, error } = await supabase.auth.signInWithOAuth({
+        provider: 'google',
+        options: {
+          redirectTo: `${window.location.origin}/auth/callback`
+        }
+      });
+      
+      if (error) throw error;
+      return { data, error: null };
+    } catch (error) {
+      console.error('Google sign in error:', error);
+      return { data: null, error: error as Error };
+    }
+  };
 
   const signInWithEmail = async (email: string, password: string) => {
-    const { error } = await supabase.auth.signInWithPassword({
-      email,
-      password,
-    })
-    return { error }
-  }
+    try {
+      const { data, error } = await supabase.auth.signInWithPassword({
+        email,
+        password
+      });
+      
+      if (error) throw error;
+      return { data, error: null };
+    } catch (error) {
+      console.error('Email sign in error:', error);
+      return { data: null, error: error as Error };
+    }
+  };
 
   const signUpWithEmail = async (email: string, password: string) => {
     const { error } = await supabase.auth.signUp({
