@@ -15,11 +15,11 @@ const ANIMATION_CONFIG = {
   DEVICE_BETA_OFFSET: 20,
 };
 
-const clamp = (value, min = 0, max = 100) =>
+const clamp = (value: number, min = 0, max = 100) =>
   Math.min(Math.max(value, min), max);
 
-const round = (value, precision = 3) =>
-  parseFloat(value.toFixed(precision));
+const round = (value: number, precision = 3) =>
+  Math.round(value * Math.pow(10, precision)) / Math.pow(10, precision);
 
 const adjust = (
   value,
