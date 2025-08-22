@@ -1,4 +1,5 @@
 import { Button } from "@/components/ui/button"
+import Link from 'next/link'
 
 export default function Navigation() {
   return (
@@ -19,7 +20,12 @@ export default function Navigation() {
 
           {/* Navigation Links */}
           <div className="hidden md:flex items-center space-x-8">
-            <a href="/" className="text-white hover:text-blue-400 transition-colors">Home</a>
+            <Link 
+              href="/"
+              className="text-white font-bold text-2xl uppercase tracking-wider hover:opacity-70 transition-opacity"
+            >
+              Home
+            </Link>
             <a href="/demo" className="text-white hover:text-blue-400 transition-colors">Full Screen</a>
             <a href="#" className="text-white hover:text-blue-400 transition-colors">About</a>
             <a href="#" className="text-white hover:text-blue-400 transition-colors">Contact</a>

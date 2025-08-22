@@ -457,7 +457,7 @@ const DemoOne = () => {
               variants={textVariants}
               transition={{ delay: 0.2 }}
             >
-              I'm Ali, a lifelong squash player who's seen firsthand how expensive this sport can be. I created CourtCycle because I wanted to give players a reason to keep playing by making gear more affordable.
+              I&apos;m Ali, a lifelong squash player who&apos;s seen firsthand how expensive this sport can be. I created CourtCycle because I wanted to give players a reason to keep playing by making gear more affordable.
             </motion.p>
             
             <motion.p 
