@@ -1,21 +1,50 @@
 'use client'
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { useAuth } from "@/contexts/AuthContext"
 import AuthModal from "@/components/Auth/AuthModal"
 import Link from 'next/link'
 
 export default function Header() {
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false)
+  const [isVisible, setIsVisible] = useState(true)
+  const [lastScrollY, setLastScrollY] = useState(0)
   const { user, signOut, loading } = useAuth()
 
   const handleSignOut = async () => {
     await signOut()
   }
 
+  // Handle scroll-based header visibility
+  useEffect(() => {
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY
+      
+      // Show header when at top, hide when scrolling down
+      if (currentScrollY <= 100) {
+        setIsVisible(true)
+      } else if (currentScrollY > lastScrollY && currentScrollY > 100) {
+        setIsVisible(false)
+      } else if (currentScrollY < lastScrollY) {
+        setIsVisible(true)
+      }
+      
+      setLastScrollY(currentScrollY)
+    }
+
+    window.addEventListener('scroll', handleScroll, { passive: true })
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [lastScrollY])
+
   return (
     <>
-    <header className="fixed top-0 left-0 right-0 z-50 px-6 py-4">
+    <header 
+      className={`fixed top-0 left-0 right-0 z-50 px-6 py-4 transition-all duration-300 ease-in-out ${
+        isVisible 
+          ? 'translate-y-0 opacity-100' 
+          : '-translate-y-full opacity-0'
+      }`}
+    >
         <div className="max-w-7xl mx-auto flex items-start justify-between">
           {/* Logo - Very Top Left, ABSOLUTELY MASSIVE */}
           <div className="flex-1 relative">
