@@ -58,7 +58,7 @@ const MarketplaceHeader = () => {
 
           {/* Navigation - Centered */}
           <motion.nav 
-            className="hidden lg:flex items-center justify-center gap-16 absolute left-1/2 transform -translate-x-1/2"
+            className="hidden lg:flex items-center justify-center gap-8 absolute left-1/2 transform -translate-x-1/2"
             initial={{ y: -20, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{ duration: 0.5, delay: 0.4 }}
@@ -72,7 +72,7 @@ const MarketplaceHeader = () => {
               <motion.a
                 key={item.name}
                 href={item.href}
-                className={`nav-button relative px-6 py-4 whitespace-nowrap ${
+                className={`nav-button relative px-3 py-2 whitespace-nowrap text-sm ${
                   item.active 
                     ? 'text-white' 
                     : 'text-gray-400'
@@ -215,18 +215,19 @@ const MarketplaceHeader = () => {
                   <User size={18} className="text-white" />
                 </motion.div>
                 <span className="text-white text-sm font-medium hidden sm:block">
-                  {user?.user_metadata?.full_name || user?.email?.split('@')[0] || 'User'}
+                  {user?.user_metadata?.full_name || user?.email?.split('@')[0] || 'Guest'}
                 </span>
               </motion.div>
               
-              {/* Sign Out */}
+              {/* Sign Out / Sign In */}
               <motion.button
-                onClick={handleSignOut}
+                onClick={user ? handleSignOut : () => window.location.href = '/'}
                 className="flex items-center justify-center w-9 h-9 bg-white/10 hover:bg-red-500/20 backdrop-blur-sm border border-white/20 hover:border-red-500/40 rounded-full text-white transition-all duration-200"
                 whileHover={{ scale: 1.05, y: -1 }}
                 whileTap={{ scale: 0.95 }}
+                title={user ? 'Sign Out' : 'Sign In'}
               >
-                <LogOut size={16} />
+                {user ? <LogOut size={16} /> : <User size={16} />}
               </motion.button>
             </motion.div>
 
@@ -262,12 +263,12 @@ export default function SellPage() {
     images: [] as File[]
   })
 
-  // Redirect to home if not authenticated
-  useEffect(() => {
-    if (!loading && !user) {
-      window.location.href = '/'
-    }
-  }, [user, loading])
+  // Allow access without authentication for now
+  // useEffect(() => {
+  //   if (!loading && !user) {
+  //     window.location.href = '/'
+  //   }
+  // }, [user, loading])
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
@@ -282,17 +283,18 @@ export default function SellPage() {
     }
   }
 
-  if (loading) {
-    return (
-      <div className="min-h-screen bg-black flex items-center justify-center">
-        <div className="w-8 h-8 border-2 border-white/20 border-t-white rounded-full animate-spin"></div>
-      </div>
-    )
-  }
+  // Skip loading and authentication checks for now
+  // if (loading) {
+  //   return (
+  //     <div className="min-h-screen bg-black flex items-center justify-center">
+  //       <div className="w-8 h-8 border-2 border-white/20 border-t-white rounded-full animate-spin"></div>
+  //     </div>
+  //   )
+  // }
 
-  if (!user) {
-    return null
-  }
+  // if (!user) {
+  //   return null
+  // }
 
   return (
     <div className="min-h-screen bg-black text-white">
