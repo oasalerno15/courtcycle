@@ -60,7 +60,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       const { data, error } = await supabase.auth.signInWithOAuth({
         provider: 'google',
         options: {
-          redirectTo: `${window.location.hostname === 'localhost' ? 'http://localhost:3000' : 'https://www.courtcycle.net'}/auth/callback`
+          redirectTo: `${window.location.protocol}//${window.location.host}/auth/callback`
         }
       });
       
