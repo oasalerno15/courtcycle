@@ -10,6 +10,7 @@ import ProfileCard from '@/components/ProfileCard';
 import { useAuth } from "@/contexts/AuthContext";
 import AuthModal from "@/components/Auth/AuthModal";
 import { User, LogOut } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 // Squash Racket Card Component
 const Card = () => {
@@ -124,33 +125,46 @@ const Card = () => {
 const AuthButtons = () => {
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false)
   const { user, signOut, loading } = useAuth()
+  const router = useRouter()
 
   const handleSignOut = async () => {
     await signOut()
   }
 
+  const handleMarketplaceClick = () => {
+    router.push('/marketplace')
+  }
+
   // Automatically redirect to marketplace when user logs in
   useEffect(() => {
     if (user) {
-      window.location.href = '/marketplace'
+      router.push('/marketplace')
     }
-  }, [user])
+  }, [user, router])
 
   return (
     <>
-      <div className="z-10 relative flex items-center justify-center gap-4">
+      <div className="z-10 relative flex flex-col items-center justify-center gap-4">
         {loading ? (
           <div className="w-8 h-8 border-2 border-white/20 border-t-white rounded-full animate-spin"></div>
         ) : user ? (
           // This will never show because user gets redirected immediately
           <div className="w-8 h-8 border-2 border-white/20 border-t-white rounded-full animate-spin"></div>
         ) : (
-          <button
-            onClick={() => setIsAuthModalOpen(true)}
-            className="bg-white text-black px-8 py-4 rounded-full font-semibold text-lg hover:bg-gray-100 transition-colors"
-          >
-            Sign In
-          </button>
+          <>
+            <button
+              onClick={() => setIsAuthModalOpen(true)}
+              className="bg-white text-black px-8 py-4 rounded-full font-semibold text-lg hover:bg-gray-100 transition-colors w-full max-w-[200px] h-14 flex items-center justify-center"
+            >
+              Sign In
+            </button>
+            <button
+              onClick={handleMarketplaceClick}
+              className="bg-transparent border-2 border-white text-white px-8 py-4 rounded-full font-semibold text-lg hover:bg-white hover:text-black transition-all duration-300 w-full max-w-[200px] h-14 flex items-center justify-center"
+            >
+              Marketplace
+            </button>
+          </>
         )}
       </div>
 

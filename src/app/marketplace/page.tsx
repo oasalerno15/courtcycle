@@ -304,18 +304,19 @@ const MarketplaceHeader = () => {
                   <User size={18} className="text-white" />
                 </motion.div>
                 <span className="text-white text-sm font-medium hidden sm:block">
-                  {user?.user_metadata?.full_name || user?.email?.split('@')[0] || 'User'}
+                  {user?.user_metadata?.full_name || user?.email?.split('@')[0] || 'Guest'}
                 </span>
               </motion.div>
               
-              {/* Sign Out */}
+              {/* Sign Out / Sign In */}
               <motion.button
-                onClick={handleSignOut}
+                onClick={user ? handleSignOut : () => window.location.href = '/'}
                 className="flex items-center justify-center w-9 h-9 bg-white/10 hover:bg-red-500/20 backdrop-blur-sm border border-white/20 hover:border-red-500/40 rounded-full text-white transition-all duration-200"
                 whileHover={{ scale: 1.05, y: -1 }}
                 whileTap={{ scale: 0.95 }}
+                title={user ? 'Sign Out' : 'Sign In'}
               >
-                <LogOut size={16} />
+                {user ? <LogOut size={16} /> : <User size={16} />}
               </motion.button>
             </motion.div>
 
@@ -346,12 +347,12 @@ export default function MarketplacePage() {
   const [isLoadingMore, setIsLoadingMore] = useState(false)
   const [currentImageIndex, setCurrentImageIndex] = useState(0)
 
-  // Redirect to home if not authenticated
-  useEffect(() => {
-    if (!loading && !user) {
-      window.location.href = '/'
-    }
-  }, [user, loading])
+  // Allow browsing without authentication
+  // useEffect(() => {
+  //   if (!loading && !user) {
+  //     window.location.href = '/'
+  //   }
+  // }, [user, loading])
 
   // Reset image index when modal opens
   useEffect(() => {
@@ -415,17 +416,19 @@ export default function MarketplacePage() {
     return matchesSearch && matchesCondition
   })
 
-  if (loading) {
-    return (
-      <div className="min-h-screen bg-black flex items-center justify-center">
-        <div className="w-8 h-8 border-2 border-white/20 border-t-white rounded-full animate-spin"></div>
-      </div>
-    )
-  }
+  // Skip loading state for marketplace - allow immediate access
+  // if (loading) {
+  //   return (
+  //     <div className="min-h-screen bg-black flex items-center justify-center">
+  //       <div className="w-8 h-8 border-2 border-white/20 border-t-white rounded-full animate-spin"></div>
+  //     </div>
+  //   )
+  // }
 
-  if (!user) {
-    return null // Will redirect
-  }
+  // Allow browsing without authentication
+  // if (!user) {
+  //   return null // Will redirect
+  // }
 
   return (
     <div className="min-h-screen bg-black text-white">
@@ -442,7 +445,7 @@ export default function MarketplacePage() {
             className="mb-8"
           >
             <h2 className="text-3xl font-bold mb-2">
-              Welcome back, {user.user_metadata?.full_name?.split(' ')[0] || user.email?.split('@')[0] || 'User'}!
+              Welcome to CourtCycle Marketplace!
             </h2>
             <p className="text-gray-400">Discover premium squash rackets from trusted sellers</p>
           </motion.div>
