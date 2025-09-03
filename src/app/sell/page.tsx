@@ -256,10 +256,6 @@ export default function SellPage() {
     price: '',
     condition: 'Like New',
     description: '',
-    weight: '',
-    headSize: '',
-    stringPattern: '',
-    balance: '',
     images: [] as File[]
   })
 
@@ -303,7 +299,7 @@ export default function SellPage() {
 
       {/* Main Content */}
       <div className="pt-28">
-        <div className="max-w-[1400px] mx-auto px-12">
+        <div className="max-w-4xl mx-auto px-8">
           {/* Header */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -327,13 +323,13 @@ export default function SellPage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1 }}
             onSubmit={handleSubmit}
-            className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-3xl p-8"
+            className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-3xl p-6"
           >
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {/* Basic Info */}
-              <div className="md:col-span-4">
-                <h2 className="text-2xl font-semibold mb-4 flex items-center gap-3">
-                  <Info size={28} />
+              <div className="md:col-span-2">
+                <h2 className="text-xl font-semibold mb-3 flex items-center gap-2">
+                  <Info size={24} />
                   Basic Information
                 </h2>
               </div>
@@ -411,67 +407,10 @@ export default function SellPage() {
                 />
               </div>
 
-              {/* Specifications */}
-              <div className="md:col-span-4 mt-4">
-                <h2 className="text-2xl font-semibold mb-4 flex items-center gap-3">
-                  <svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="text-white">
-                    <path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                    <path d="M2 17L12 22L22 17" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                    <path d="M2 12L12 17L22 12" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                  </svg>
-                  Specifications
-                </h2>
-              </div>
 
-              <div>
-                <label className="block text-lg font-medium mb-2 text-white">Weight</label>
-                <input
-                  type="text"
-                  placeholder="e.g., 125g"
-                  value={formData.weight}
-                  onChange={(e) => setFormData({ ...formData, weight: e.target.value })}
-                  className="w-full bg-white/5 border border-white/10 rounded-xl py-3 px-4 text-white text-lg placeholder-gray-400 focus:outline-none focus:border-white/30 focus:ring-2 focus:ring-white/10 transition-all"
-                />
-              </div>
-
-              <div>
-                <label className="block text-lg font-medium mb-2 text-white">Head Size</label>
-                <input
-                  type="text"
-                  placeholder="e.g., 500cm²"
-                  value={formData.headSize}
-                  onChange={(e) => setFormData({ ...formData, headSize: e.target.value })}
-                  className="w-full bg-white/5 border border-white/10 rounded-xl py-3 px-4 text-white text-lg placeholder-gray-400 focus:outline-none focus:border-white/30 focus:ring-2 focus:ring-white/10 transition-all"
-                />
-              </div>
-
-              <div>
-                <label className="block text-lg font-medium mb-2 text-white">String Pattern</label>
-                <input
-                  type="text"
-                  placeholder="e.g., 14x18"
-                  value={formData.stringPattern}
-                  onChange={(e) => setFormData({ ...formData, stringPattern: e.target.value })}
-                  className="w-full bg-white/5 border border-white/10 rounded-xl py-3 px-4 text-white text-lg placeholder-gray-400 focus:outline-none focus:border-white/30 focus:ring-2 focus:ring-white/10 transition-all"
-                />
-              </div>
-
-              <div>
-                <label className="block text-lg font-medium mb-2 text-white">Balance</label>
-                <select
-                  value={formData.balance}
-                  onChange={(e) => setFormData({ ...formData, balance: e.target.value })}
-                  className="w-full bg-white/5 border border-white/10 rounded-xl py-3 px-4 text-white text-lg focus:outline-none focus:border-white/30 focus:ring-2 focus:ring-white/10 transition-all"
-                >
-                  <option value="">Select Balance</option>
-                  <option value="Head Heavy">Head Heavy</option>
-                  <option value="Even">Even</option>
-                  <option value="Head Light">Head Light</option>
-                </select>
-              </div>
 
               {/* Images and Submit on same row */}
-              <div className="md:col-span-3 mt-4">
+              <div className="md:col-span-2 mt-4">
                 <label className="block text-lg font-medium mb-3 text-white">Photos</label>
                 <div className="border-2 border-dashed border-white/20 rounded-xl p-6 text-center hover:border-white/30 transition-colors">
                   <Upload className="mx-auto mb-3 text-gray-400" size={40} />
@@ -499,12 +438,12 @@ export default function SellPage() {
               </div>
 
               {/* Submit Button */}
-              <div className="md:col-span-1 mt-4 flex items-end">
+              <div className="md:col-span-2 mt-6">
                 <motion.button
                   type="submit"
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
-                  className="w-full bg-white text-black py-20 rounded-xl font-bold text-xl hover:bg-gray-100 transition-colors shadow-lg"
+                  className="w-full bg-white text-black py-4 rounded-xl font-bold text-lg hover:bg-gray-100 transition-colors shadow-lg"
                 >
                   List My Racket
                 </motion.button>
