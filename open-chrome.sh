@@ -4,3 +4,4 @@
 open -a "Google Chrome" http://localhost:3000
 
 echo "Opening CourtCycle in Chrome..."
+

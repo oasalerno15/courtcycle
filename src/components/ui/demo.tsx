@@ -33,8 +33,8 @@ const Card = () => {
 
       <style jsx>{`
         .racket-card {
-          width: 195px;
-          height: 285px;
+          width: 160px;
+          height: 240px;
           background: #313131;
           border-radius: 20px;
           display: flex;
@@ -45,6 +45,13 @@ const Card = () => {
           transition: 0.2s ease-in-out;
           position: relative;
           overflow: hidden;
+        }
+
+        @media (min-width: 640px) {
+          .racket-card {
+            width: 195px;
+            height: 285px;
+          }
         }
 
         .racket-img {
@@ -77,17 +84,31 @@ const Card = () => {
         }
 
         .racket-head {
-          font-size: 20px;
+          font-size: 16px;
         }
 
         .racket-price {
-          font-size: 17px;
+          font-size: 14px;
           color: #4ade80;
         }
 
         .racket-span {
-          font-size: 12px;
+          font-size: 10px;
           color: lightgrey;
+        }
+
+        @media (min-width: 640px) {
+          .racket-head {
+            font-size: 20px;
+          }
+
+          .racket-price {
+            font-size: 17px;
+          }
+
+          .racket-span {
+            font-size: 12px;
+          }
         }
 
         .racket-card:hover .racket-textBox {
@@ -144,23 +165,23 @@ const AuthButtons = () => {
 
   return (
     <>
-      <div className="z-10 relative flex flex-col items-center justify-center gap-4">
+      <div className="z-10 relative flex flex-col items-center justify-center gap-3 sm:gap-4 px-4">
         {loading ? (
-          <div className="w-8 h-8 border-2 border-white/20 border-t-white rounded-full animate-spin"></div>
+          <div className="w-6 h-6 sm:w-8 sm:h-8 border-2 border-white/20 border-t-white rounded-full animate-spin"></div>
         ) : user ? (
           // This will never show because user gets redirected immediately
-          <div className="w-8 h-8 border-2 border-white/20 border-t-white rounded-full animate-spin"></div>
+          <div className="w-6 h-6 sm:w-8 sm:h-8 border-2 border-white/20 border-t-white rounded-full animate-spin"></div>
         ) : (
           <>
             <button
               onClick={() => setIsAuthModalOpen(true)}
-              className="bg-white text-black px-8 py-4 rounded-full font-semibold text-lg hover:bg-gray-100 transition-colors w-full max-w-[200px] h-14 flex items-center justify-center"
+              className="bg-white text-black px-6 sm:px-8 py-3 sm:py-4 rounded-full font-semibold text-base sm:text-lg hover:bg-gray-100 transition-colors w-full max-w-[180px] sm:max-w-[200px] h-12 sm:h-14 flex items-center justify-center"
             >
               Sign In
             </button>
             <button
               onClick={handleMarketplaceClick}
-              className="bg-transparent border-2 border-white text-white px-8 py-4 rounded-full font-semibold text-lg hover:bg-white hover:text-black transition-all duration-300 w-full max-w-[200px] h-14 flex items-center justify-center"
+              className="bg-transparent border-2 border-white text-white px-6 sm:px-8 py-3 sm:py-4 rounded-full font-semibold text-base sm:text-lg hover:bg-white hover:text-black transition-all duration-300 w-full max-w-[180px] sm:max-w-[200px] h-12 sm:h-14 flex items-center justify-center"
             >
               Marketplace
             </button>
@@ -297,8 +318,8 @@ const DemoOne = () => {
         />
       </div>
       
-      {/* Subtitle */}
-        <p className="text-lg md:text-xl text-white mix-blend-exclusion max-w-2xl px-6 leading-relaxed text-center z-10 relative mb-8">
+        {/* Subtitle */}
+        <p className="text-sm sm:text-base md:text-lg lg:text-xl text-white mix-blend-exclusion max-w-2xl px-4 sm:px-6 leading-relaxed text-center z-10 relative mb-6 sm:mb-8">
         The ultimate marketplace for buying, selling, and trading premium squash rackets.
       </p>
 
@@ -333,20 +354,20 @@ const DemoOne = () => {
 
         {/* Animated Content */}
         <motion.div 
-          className="z-10 relative max-w-6xl mx-auto px-6 text-center"
+          className="z-10 relative max-w-6xl mx-auto px-4 sm:px-6 text-center"
           variants={containerVariants}
           initial="hidden"
           animate={isWhatWeDoInView ? "visible" : "hidden"}
         >
           <motion.h2 
-            className="text-6xl md:text-8xl font-bold text-white mb-16 tracking-wider"
+            className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold text-white mb-8 sm:mb-12 md:mb-16 tracking-wider"
             variants={titleVariants}
           >
             WHAT WE DO
           </motion.h2>
           
           <motion.div 
-            className="grid md:grid-cols-3 gap-16 mt-20"
+            className="grid grid-cols-1 md:grid-cols-3 gap-8 sm:gap-12 md:gap-16 mt-8 sm:mt-12 md:mt-20"
             variants={containerVariants}
           >
             {/* Buy */}
@@ -359,16 +380,16 @@ const DemoOne = () => {
               }}
             >
               <motion.div 
-                className="w-16 h-16 bg-white rounded-full flex items-center justify-center mx-auto mb-6"
+                className="w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 bg-white rounded-full flex items-center justify-center mx-auto mb-4 sm:mb-6"
                 whileHover={{ 
                   rotate: 360,
                   transition: { duration: 0.5 }
                 }}
               >
-                <span className="text-black font-bold text-2xl">B</span>
+                <span className="text-black font-bold text-lg sm:text-xl md:text-2xl">B</span>
               </motion.div>
-              <h3 className="text-2xl font-bold text-white mb-4">BUY</h3>
-              <p className="text-gray-300 leading-relaxed">
+              <h3 className="text-xl sm:text-2xl font-bold text-white mb-3 sm:mb-4">BUY</h3>
+              <p className="text-sm sm:text-base text-gray-300 leading-relaxed px-2">
                 Discover premium squash rackets from top brands and trusted sellers. Find your perfect match with our curated marketplace.
               </p>
             </motion.div>
@@ -383,16 +404,16 @@ const DemoOne = () => {
               }}
             >
               <motion.div 
-                className="w-16 h-16 bg-white rounded-full flex items-center justify-center mx-auto mb-6"
+                className="w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 bg-white rounded-full flex items-center justify-center mx-auto mb-4 sm:mb-6"
                 whileHover={{ 
                   rotate: 360,
                   transition: { duration: 0.5 }
                 }}
               >
-                <span className="text-black font-bold text-2xl">S</span>
+                <span className="text-black font-bold text-lg sm:text-xl md:text-2xl">S</span>
               </motion.div>
-              <h3 className="text-2xl font-bold text-white mb-4">SELL</h3>
-              <p className="text-gray-300 leading-relaxed">
+              <h3 className="text-xl sm:text-2xl font-bold text-white mb-3 sm:mb-4">SELL</h3>
+              <p className="text-sm sm:text-base text-gray-300 leading-relaxed px-2">
                 Turn your unused equipment into cash. List your rackets and reach serious players looking for quality gear.
               </p>
             </motion.div>
@@ -407,16 +428,16 @@ const DemoOne = () => {
               }}
             >
               <motion.div 
-                className="w-16 h-16 bg-white rounded-full flex items-center justify-center mx-auto mb-6"
+                className="w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 bg-white rounded-full flex items-center justify-center mx-auto mb-4 sm:mb-6"
                 whileHover={{ 
                   rotate: 360,
                   transition: { duration: 0.5 }
                 }}
               >
-                <span className="text-black font-bold text-2xl">P</span>
+                <span className="text-black font-bold text-lg sm:text-xl md:text-2xl">P</span>
               </motion.div>
-              <h3 className="text-2xl font-bold text-white mb-4">PLAY</h3>
-              <p className="text-gray-300 leading-relaxed">
+              <h3 className="text-xl sm:text-2xl font-bold text-white mb-3 sm:mb-4">PLAY</h3>
+              <p className="text-sm sm:text-base text-gray-300 leading-relaxed px-2">
                 Connect with the squash community. Find playing partners, join tournaments, and elevate your game.
               </p>
             </motion.div>
@@ -424,7 +445,7 @@ const DemoOne = () => {
 
           {/* Squash Racket Card Section */}
           <motion.div 
-            className="flex justify-center mt-16"
+            className="flex justify-center mt-8 sm:mt-12 md:mt-16"
             variants={cardVariants}
           >
             <Card />
@@ -451,7 +472,7 @@ const DemoOne = () => {
         </div>
 
         {/* Content */}
-        <div className="z-10 relative max-w-7xl mx-auto px-6 grid md:grid-cols-2 gap-20 items-center">
+        <div className="z-10 relative max-w-7xl mx-auto px-4 sm:px-6 grid grid-cols-1 md:grid-cols-2 gap-10 sm:gap-15 md:gap-20 items-center">
           {/* Left Side - Text */}
           <motion.div 
             className="text-left"
@@ -460,14 +481,14 @@ const DemoOne = () => {
             animate={isAboutUsInView ? "visible" : "hidden"}
           >
             <motion.h2 
-              className="text-6xl md:text-8xl font-bold text-white mb-12 tracking-wider"
+              className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold text-white mb-8 sm:mb-10 md:mb-12 tracking-wider"
               variants={titleVariants}
             >
               ABOUT COURTCYCLE
             </motion.h2>
             
             <motion.p 
-              className="text-2xl text-gray-300 leading-relaxed mb-8"
+              className="text-lg sm:text-xl md:text-2xl text-gray-300 leading-relaxed mb-6 sm:mb-8"
               variants={textVariants}
               transition={{ delay: 0.2 }}
             >
@@ -475,7 +496,7 @@ const DemoOne = () => {
             </motion.p>
             
             <motion.p 
-              className="text-xl text-gray-400 leading-relaxed mb-8"
+              className="text-base sm:text-lg md:text-xl text-gray-400 leading-relaxed mb-6 sm:mb-8"
               variants={textVariants}
               transition={{ delay: 0.4 }}
             >
@@ -483,7 +504,7 @@ const DemoOne = () => {
             </motion.p>
 
             <motion.p 
-              className="text-xl text-gray-400 leading-relaxed mb-8"
+              className="text-base sm:text-lg md:text-xl text-gray-400 leading-relaxed mb-6 sm:mb-8"
               variants={textVariants}
               transition={{ delay: 0.6 }}
             >
@@ -534,7 +555,7 @@ const DemoOne = () => {
         </div>
 
         {/* Content */}
-        <div className="z-10 relative max-w-6xl mx-auto px-6 text-center">
+        <div className="z-10 relative max-w-6xl mx-auto px-4 sm:px-6 text-center">
           <motion.div 
             className="max-w-5xl mx-auto"
             variants={containerVariants}
@@ -542,19 +563,19 @@ const DemoOne = () => {
             animate={isMissionInView ? "visible" : "hidden"}
           >
             <motion.h2 
-              className="text-6xl md:text-8xl font-bold text-white mb-16 tracking-wider"
+              className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold text-white mb-10 sm:mb-12 md:mb-16 tracking-wider"
               variants={titleVariants}
             >
               OUR MISSION
             </motion.h2>
             
             <motion.div 
-              className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-3xl p-12 mb-12"
+              className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-3xl p-6 sm:p-8 md:p-10 lg:p-12 mb-8 sm:mb-10 md:mb-12"
               variants={textVariants}
               transition={{ delay: 0.2 }}
             >
               <motion.p 
-                className="text-2xl text-gray-300 leading-relaxed mb-8"
+                className="text-lg sm:text-xl md:text-2xl text-gray-300 leading-relaxed mb-6 sm:mb-8"
                 variants={textVariants}
                 transition={{ delay: 0.4 }}
               >
@@ -562,7 +583,7 @@ const DemoOne = () => {
               </motion.p>
 
               <motion.h3 
-                className="text-3xl text-white font-bold mb-6"
+                className="text-2xl sm:text-3xl text-white font-bold mb-4 sm:mb-6"
                 variants={textVariants}
                 transition={{ delay: 0.6 }}
               >
@@ -570,49 +591,49 @@ const DemoOne = () => {
               </motion.h3>
 
               <motion.div 
-                className="grid md:grid-cols-3 gap-8 mb-8"
+                className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 sm:gap-8 mb-6 sm:mb-8"
                 variants={containerVariants}
                 transition={{ delay: 0.8 }}
               >
                 <motion.div 
-                  className="text-center p-6 bg-white/5 rounded-2xl border border-white/10"
+                  className="text-center p-4 sm:p-6 bg-white/5 rounded-2xl border border-white/10"
                   variants={cardVariants}
                   whileHover={{ scale: 1.05, y: -5 }}
                 >
-                  <div className="w-16 h-16 bg-white rounded-full flex items-center justify-center mx-auto mb-4">
-                    <span className="text-black font-bold text-2xl">💰</span>
+                  <div className="w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 bg-white rounded-full flex items-center justify-center mx-auto mb-3 sm:mb-4">
+                    <span className="text-black font-bold text-lg sm:text-xl md:text-2xl">💰</span>
                   </div>
-                  <h4 className="text-xl font-bold text-white mb-2">Affordable</h4>
-                  <p className="text-gray-400">Make racket sports more affordable for everyone</p>
+                  <h4 className="text-lg sm:text-xl font-bold text-white mb-2">Affordable</h4>
+                  <p className="text-sm sm:text-base text-gray-400">Make racket sports more affordable for everyone</p>
                 </motion.div>
 
                 <motion.div 
-                  className="text-center p-6 bg-white/5 rounded-2xl border border-white/10"
+                  className="text-center p-4 sm:p-6 bg-white/5 rounded-2xl border border-white/10"
                   variants={cardVariants}
                   whileHover={{ scale: 1.05, y: -5 }}
                 >
-                  <div className="w-16 h-16 bg-white rounded-full flex items-center justify-center mx-auto mb-4">
-                    <span className="text-black font-bold text-2xl">🌱</span>
+                  <div className="w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 bg-white rounded-full flex items-center justify-center mx-auto mb-3 sm:mb-4">
+                    <span className="text-black font-bold text-lg sm:text-xl md:text-2xl">🌱</span>
                   </div>
-                  <h4 className="text-xl font-bold text-white mb-2">Sustainable</h4>
-                  <p className="text-gray-400">Make gear more sustainable through reuse</p>
+                  <h4 className="text-lg sm:text-xl font-bold text-white mb-2">Sustainable</h4>
+                  <p className="text-sm sm:text-base text-gray-400">Make gear more sustainable through reuse</p>
                 </motion.div>
 
                 <motion.div 
-                  className="text-center p-6 bg-white/5 rounded-2xl border border-white/10"
+                  className="text-center p-4 sm:p-6 bg-white/5 rounded-2xl border border-white/10 sm:col-span-2 md:col-span-1"
                   variants={cardVariants}
                   whileHover={{ scale: 1.05, y: -5 }}
                 >
-                  <div className="w-16 h-16 bg-white rounded-full flex items-center justify-center mx-auto mb-4">
-                    <span className="text-black font-bold text-2xl">🤝</span>
+                  <div className="w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 bg-white rounded-full flex items-center justify-center mx-auto mb-3 sm:mb-4">
+                    <span className="text-black font-bold text-lg sm:text-xl md:text-2xl">🤝</span>
                   </div>
-                  <h4 className="text-xl font-bold text-white mb-2">Inclusive</h4>
-                  <p className="text-gray-400">Make the game more inclusive for all players</p>
+                  <h4 className="text-lg sm:text-xl font-bold text-white mb-2">Inclusive</h4>
+                  <p className="text-sm sm:text-base text-gray-400">Make the game more inclusive for all players</p>
                 </motion.div>
               </motion.div>
 
               <motion.p 
-                className="text-xl text-gray-400 leading-relaxed mb-8"
+                className="text-base sm:text-lg md:text-xl text-gray-400 leading-relaxed mb-6 sm:mb-8"
                 variants={textVariants}
                 transition={{ delay: 1.0 }}
               >
@@ -625,7 +646,7 @@ const DemoOne = () => {
                 transition={{ delay: 1.2 }}
               >
                 <motion.p 
-                  className="text-4xl text-white font-bold leading-relaxed"
+                  className="text-2xl sm:text-3xl md:text-4xl text-white font-bold leading-relaxed px-2"
                   whileHover={{ scale: 1.05 }}
                   transition={{ duration: 0.3 }}
                 >

@@ -110,24 +110,24 @@ const MarketplaceHeader = () => {
       transition={{ duration: 0.6, ease: "easeOut" }}
       className="fixed top-0 left-0 right-0 z-50 bg-black/95 backdrop-blur-md border-b border-white/20"
     >
-      <div className="w-full px-12 py-5">
-        <div className="flex items-center justify-between h-16">
-          {/* Logo Section - Far Left */}
+      <div className="w-full px-4 sm:px-6 md:px-8 lg:px-12 py-3 sm:py-4 lg:py-5">
+        <div className="flex items-center justify-between h-12 sm:h-14 lg:h-16">
+          {/* Logo Section - Responsive sizing */}
           <motion.div 
-            className="flex items-center gap-4"
+            className="flex items-center gap-2 sm:gap-3 lg:gap-4"
             whileHover={{ scale: 1.02 }}
             transition={{ duration: 0.2 }}
           >
             <motion.img 
               src="/Untitled design (1).png" 
               alt="CourtCycle" 
-              className="h-14 w-auto"
+              className="h-8 sm:h-10 md:h-12 lg:h-14 w-auto"
               whileHover={{ rotate: 5 }}
               transition={{ duration: 0.3 }}
             />
             <div>
               <motion.h1 
-                className="text-2xl font-bold text-white leading-tight"
+                className="text-lg sm:text-xl lg:text-2xl font-bold text-white leading-tight"
                 initial={{ x: -20, opacity: 0 }}
                 animate={{ x: 0, opacity: 1 }}
                 transition={{ duration: 0.5, delay: 0.2 }}
@@ -135,7 +135,7 @@ const MarketplaceHeader = () => {
                 CourtCycle
               </motion.h1>
               <motion.p 
-                className="text-sm text-gray-400 font-medium leading-tight"
+                className="text-xs sm:text-sm text-gray-400 font-medium leading-tight"
                 initial={{ x: -20, opacity: 0 }}
                 animate={{ x: 0, opacity: 1 }}
                 transition={{ duration: 0.5, delay: 0.3 }}
@@ -145,9 +145,9 @@ const MarketplaceHeader = () => {
             </div>
           </motion.div>
 
-          {/* Navigation - Centered */}
+          {/* Navigation - Hidden on mobile, responsive on larger screens */}
           <motion.nav 
-            className="hidden lg:flex items-center justify-center gap-8 absolute left-1/2 transform -translate-x-1/2"
+            className="hidden lg:flex items-center justify-center gap-4 xl:gap-8 absolute left-1/2 transform -translate-x-1/2"
             initial={{ y: -20, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{ duration: 0.5, delay: 0.4 }}
@@ -257,78 +257,78 @@ const MarketplaceHeader = () => {
             `}</style>
           </motion.nav>
 
-          {/* User Menu - Far Right */}
+          {/* User Menu - Mobile responsive */}
           <motion.div 
-            className="flex items-center gap-4"
+            className="flex items-center gap-2 sm:gap-3 lg:gap-4"
             initial={{ x: 20, opacity: 0 }}
             animate={{ x: 0, opacity: 1 }}
             transition={{ duration: 0.5, delay: 0.6 }}
           >
-            {/* Notifications */}
+            {/* Notifications - Hidden on mobile */}
             <motion.button 
-              className="relative p-2 text-gray-400 hover:text-white transition-colors duration-200 hover:bg-white/5 rounded-full"
+              className="hidden sm:flex relative p-2 text-gray-400 hover:text-white transition-colors duration-200 hover:bg-white/5 rounded-full"
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.9 }}
             >
-              <Bell size={24} />
+              <Bell size={20} className="sm:w-5 sm:h-5 lg:w-6 lg:h-6" />
               <motion.div 
-                className="absolute -top-1 -right-1 w-3 h-3 bg-red-500 rounded-full border-2 border-black"
+                className="absolute -top-1 -right-1 w-2.5 h-2.5 sm:w-3 sm:h-3 bg-red-500 rounded-full border-2 border-black"
                 animate={{ scale: [1, 1.2, 1] }}
                 transition={{ duration: 2, repeat: Infinity }}
               />
             </motion.button>
             
-            {/* Messages */}
+            {/* Messages - Hidden on mobile */}
             <motion.button 
-              className="p-2 text-gray-400 hover:text-white transition-colors duration-200 hover:bg-white/5 rounded-full"
+              className="hidden sm:flex p-2 text-gray-400 hover:text-white transition-colors duration-200 hover:bg-white/5 rounded-full"
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.9 }}
             >
-              <MessageCircle size={24} />
+              <MessageCircle size={20} className="sm:w-5 sm:h-5 lg:w-6 lg:h-6" />
             </motion.button>
 
-            {/* User Profile */}
+            {/* User Profile - Simplified for mobile */}
             <motion.div 
-              className="flex items-center gap-3"
+              className="flex items-center gap-1 sm:gap-2 lg:gap-3"
               whileHover={{ scale: 1.02 }}
             >
               <motion.div 
-                className="flex items-center gap-3 bg-white/10 backdrop-blur-sm border border-white/20 rounded-full px-4 py-2 hover:bg-white/15 transition-colors duration-200"
+                className="flex items-center gap-1 sm:gap-2 lg:gap-3 bg-white/10 backdrop-blur-sm border border-white/20 rounded-full px-2 sm:px-3 lg:px-4 py-1 sm:py-1.5 lg:py-2 hover:bg-white/15 transition-colors duration-200"
                 whileHover={{ y: -1 }}
               >
                 <motion.div
-                  className="w-8 h-8 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center"
+                  className="w-6 h-6 sm:w-7 sm:h-7 lg:w-8 lg:h-8 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center"
                   whileHover={{ rotate: 180 }}
                   transition={{ duration: 0.3 }}
                 >
-                  <User size={18} className="text-white" />
+                  <User size={14} className="sm:w-4 sm:h-4 lg:w-5 lg:h-5 text-white" />
                 </motion.div>
-                <span className="text-white text-sm font-medium hidden sm:block">
+                <span className="text-white text-xs sm:text-sm font-medium hidden md:block">
                   {user?.user_metadata?.full_name || user?.email?.split('@')[0] || 'Guest'}
                 </span>
               </motion.div>
               
-              {/* Sign Out / Sign In */}
+              {/* Sign Out / Sign In - Smaller on mobile */}
               <motion.button
                 onClick={user ? handleSignOut : () => window.location.href = '/'}
-                className="flex items-center justify-center w-9 h-9 bg-white/10 hover:bg-red-500/20 backdrop-blur-sm border border-white/20 hover:border-red-500/40 rounded-full text-white transition-all duration-200"
+                className="flex items-center justify-center w-7 h-7 sm:w-8 sm:h-8 lg:w-9 lg:h-9 bg-white/10 hover:bg-red-500/20 backdrop-blur-sm border border-white/20 hover:border-red-500/40 rounded-full text-white transition-all duration-200"
                 whileHover={{ scale: 1.05, y: -1 }}
                 whileTap={{ scale: 0.95 }}
                 title={user ? 'Sign Out' : 'Sign In'}
               >
-                {user ? <LogOut size={16} /> : <User size={16} />}
+                {user ? <LogOut size={12} className="sm:w-3.5 sm:h-3.5 lg:w-4 lg:h-4" /> : <User size={12} className="sm:w-3.5 sm:h-3.5 lg:w-4 lg:h-4" />}
               </motion.button>
             </motion.div>
 
-            {/* Exit Button */}
+            {/* Exit Button - Simplified for mobile */}
             <motion.a 
               href="/"
-              className="flex items-center gap-2 text-gray-400 hover:text-white transition-colors duration-200 bg-white/5 hover:bg-white/10 rounded-full px-3 py-2 border border-white/10 hover:border-white/20"
+              className="flex items-center gap-1 sm:gap-2 text-gray-400 hover:text-white transition-colors duration-200 bg-white/5 hover:bg-white/10 rounded-full px-2 sm:px-3 py-1 sm:py-1.5 lg:py-2 border border-white/10 hover:border-white/20"
               whileHover={{ scale: 1.05, y: -1 }}
               whileTap={{ scale: 0.95 }}
             >
-              <Home size={20} />
-              <span className="text-sm font-medium hidden sm:block">Exit</span>
+              <Home size={16} className="sm:w-5 sm:h-5 lg:w-5 lg:h-5" />
+              <span className="text-xs sm:text-sm font-medium hidden lg:block">Exit</span>
             </motion.a>
           </motion.div>
         </div>
@@ -436,18 +436,18 @@ export default function MarketplacePage() {
       <MarketplaceHeader />
 
       {/* Main Content */}
-      <div className="pt-28">
+      <div className="pt-20 sm:pt-24 lg:pt-28">
         {/* Welcome Section */}
-        <div className="max-w-7xl mx-auto px-6 py-8">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-6 sm:py-8">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="mb-8"
+            className="mb-6 sm:mb-8"
           >
-            <h2 className="text-3xl font-bold mb-2">
+            <h2 className="text-2xl sm:text-3xl font-bold mb-2">
               Welcome to CourtCycle Marketplace!
             </h2>
-            <p className="text-gray-400">Discover premium squash rackets from trusted sellers</p>
+            <p className="text-sm sm:text-base text-gray-400">Discover premium squash rackets from trusted sellers</p>
           </motion.div>
 
           {/* Search and Filters */}
@@ -455,52 +455,55 @@ export default function MarketplacePage() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1 }}
-            className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-6 mb-8"
+            className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-4 sm:p-6 mb-6 sm:mb-8"
           >
-            <div className="flex flex-col md:flex-row gap-4">
+            <div className="flex flex-col gap-3 sm:gap-4">
               {/* Search */}
               <div className="flex-1 relative">
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
+                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={18} />
                 <input
                   type="text"
                   placeholder="Search rackets, brands, or models..."
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
-                  className="w-full bg-white/5 border border-white/10 rounded-lg py-3 pl-12 pr-4 text-white placeholder-gray-400 focus:outline-none focus:border-white/30 transition-colors"
+                  className="w-full bg-white/5 border border-white/10 rounded-lg py-2.5 sm:py-3 pl-10 sm:pl-12 pr-4 text-sm sm:text-base text-white placeholder-gray-400 focus:outline-none focus:border-white/30 transition-colors"
                 />
               </div>
 
-              {/* Condition Filter */}
-              <select
-                value={filterCondition}
-                onChange={(e) => setFilterCondition(e.target.value)}
-                className="bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-white/30 transition-colors"
-              >
-                <option value="all">All Conditions</option>
-                <option value="New">New</option>
-                <option value="Like New">Like New</option>
-                <option value="Good">Good</option>
-                <option value="Fair">Fair</option>
-              </select>
+              {/* Filters Row */}
+              <div className="flex flex-col sm:flex-row gap-3 sm:gap-4">
+                {/* Condition Filter */}
+                <select
+                  value={filterCondition}
+                  onChange={(e) => setFilterCondition(e.target.value)}
+                  className="flex-1 bg-white/5 border border-white/10 rounded-lg px-3 sm:px-4 py-2.5 sm:py-3 text-sm sm:text-base text-white focus:outline-none focus:border-white/30 transition-colors"
+                >
+                  <option value="all">All Conditions</option>
+                  <option value="New">New</option>
+                  <option value="Like New">Like New</option>
+                  <option value="Good">Good</option>
+                  <option value="Fair">Fair</option>
+                </select>
 
-              {/* Sort */}
-              <select
-                value={sortBy}
-                onChange={(e) => setSortBy(e.target.value)}
-                className="bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-white/30 transition-colors"
-              >
-                <option value="newest">Newest First</option>
-                <option value="price-low">Price: Low to High</option>
-                <option value="price-high">Price: High to Low</option>
-                <option value="rating">Highest Rated</option>
-              </select>
+                {/* Sort */}
+                <select
+                  value={sortBy}
+                  onChange={(e) => setSortBy(e.target.value)}
+                  className="flex-1 bg-white/5 border border-white/10 rounded-lg px-3 sm:px-4 py-2.5 sm:py-3 text-sm sm:text-base text-white focus:outline-none focus:border-white/30 transition-colors"
+                >
+                  <option value="newest">Newest First</option>
+                  <option value="price-low">Price: Low to High</option>
+                  <option value="price-high">Price: High to Low</option>
+                  <option value="rating">Highest Rated</option>
+                </select>
+              </div>
             </div>
           </motion.div>
         </div>
 
         {/* Racket Grid */}
-        <div className="max-w-7xl mx-auto px-6">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
             {filteredRackets.map((racket, index) => (
               <motion.div
                 key={racket.id}
@@ -512,42 +515,42 @@ export default function MarketplacePage() {
                 onClick={() => setSelectedRacket(racket)}
               >
                 {/* Image */}
-                <div className="relative h-48 bg-gradient-to-br from-gray-800 to-gray-900">
+                <div className="relative h-40 sm:h-48 bg-gradient-to-br from-gray-800 to-gray-900">
                   <img
                     src={racket.images[0]}
                     alt={racket.title}
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                   />
                   <button 
-                    className="absolute top-3 right-3 w-8 h-8 bg-black/50 backdrop-blur-sm rounded-full flex items-center justify-center text-white/70 hover:text-red-400 transition-colors"
+                    className="absolute top-2 sm:top-3 right-2 sm:right-3 w-7 h-7 sm:w-8 sm:h-8 bg-black/50 backdrop-blur-sm rounded-full flex items-center justify-center text-white/70 hover:text-red-400 transition-colors"
                     onClick={(e) => {
                       e.stopPropagation()
                       // Add to favorites logic here
                     }}
                   >
-                    <Heart size={16} />
+                    <Heart size={14} className="sm:w-4 sm:h-4" />
                   </button>
-                  <div className="absolute bottom-3 left-3 bg-black/70 backdrop-blur-sm px-2 py-1 rounded-full text-xs text-white">
+                  <div className="absolute bottom-2 sm:bottom-3 left-2 sm:left-3 bg-black/70 backdrop-blur-sm px-2 py-1 rounded-full text-xs text-white">
                     {racket.condition}
                   </div>
                 </div>
 
                 {/* Content */}
-                <div className="p-4">
+                <div className="p-3 sm:p-4">
                   <div className="flex items-start justify-between mb-2">
-                    <div>
-                      <h3 className="font-semibold text-white line-clamp-1">{racket.title}</h3>
-                      <p className="text-sm text-gray-400">{racket.brand}</p>
+                    <div className="flex-1 min-w-0">
+                      <h3 className="font-semibold text-white line-clamp-1 text-sm sm:text-base">{racket.title}</h3>
+                      <p className="text-xs sm:text-sm text-gray-400">{racket.brand}</p>
                     </div>
-                    <div className="text-right">
-                      <div className="text-xl font-bold text-white">${racket.price}</div>
+                    <div className="text-right ml-2">
+                      <div className="text-lg sm:text-xl font-bold text-white">${racket.price}</div>
                     </div>
                   </div>
 
-                  <p className="text-sm text-gray-400 line-clamp-2 mb-3">{racket.description}</p>
+                  <p className="text-xs sm:text-sm text-gray-400 line-clamp-2 mb-3">{racket.description}</p>
 
                   {/* Specs */}
-                  <div className="grid grid-cols-2 gap-2 text-xs text-gray-400 mb-3">
+                  <div className="grid grid-cols-2 gap-1 sm:gap-2 text-xs text-gray-400 mb-3">
                     <div>Weight: {racket.specifications.weight}</div>
                     <div>Head: {racket.specifications.headSize}</div>
                     <div>String: {racket.specifications.stringPattern}</div>
@@ -555,15 +558,15 @@ export default function MarketplacePage() {
                   </div>
 
                   {/* Seller Info */}
-                  <div className="flex items-center justify-between pt-3 border-t border-white/10">
+                  <div className="flex items-center justify-between pt-2 sm:pt-3 border-t border-white/10">
                     <div className="flex items-center gap-2">
-                      <div className="w-6 h-6 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center text-white text-xs font-bold">
+                      <div className="w-5 h-5 sm:w-6 sm:h-6 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center text-white text-xs font-bold">
                         {racket.seller[0]}
                       </div>
-                      <span className="text-sm text-gray-400">{racket.seller}</span>
+                      <span className="text-xs sm:text-sm text-gray-400 truncate">{racket.seller}</span>
                     </div>
                     <div className="flex items-center gap-1">
-                      <Star className="text-yellow-400 fill-current" size={12} />
+                      <Star className="text-yellow-400 fill-current" size={10} />
                       <span className="text-xs text-gray-400">{racket.rating}</span>
                     </div>
                   </div>
@@ -592,32 +595,32 @@ export default function MarketplacePage() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4"
+          className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-2 sm:p-4"
           onClick={() => setSelectedRacket(null)}
         >
           <motion.div
             initial={{ scale: 0.8, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             exit={{ scale: 0.8, opacity: 0 }}
-            className="bg-gray-900 rounded-2xl max-w-6xl w-full max-h-[90vh] overflow-y-auto"
+            className="bg-gray-900 rounded-2xl max-w-6xl w-full max-h-[95vh] sm:max-h-[90vh] overflow-y-auto"
             onClick={(e) => e.stopPropagation()}
           >
             {/* Modal Header */}
-            <div className="flex items-center justify-between p-6 border-b border-white/10">
-              <h2 className="text-2xl font-bold text-white">{selectedRacket.title}</h2>
+            <div className="flex items-center justify-between p-4 sm:p-6 border-b border-white/10">
+              <h2 className="text-lg sm:text-xl lg:text-2xl font-bold text-white pr-4">{selectedRacket.title}</h2>
               <button
                 onClick={() => setSelectedRacket(null)}
-                className="w-10 h-10 bg-white/10 hover:bg-white/20 rounded-full flex items-center justify-center transition-colors"
+                className="w-8 h-8 sm:w-10 sm:h-10 bg-white/10 hover:bg-white/20 rounded-full flex items-center justify-center transition-colors flex-shrink-0"
               >
                 ✕
               </button>
             </div>
 
             {/* Modal Content */}
-            <div className="grid md:grid-cols-2 gap-6 p-6">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6 p-4 sm:p-6">
               {/* Image Section */}
-              <div className="space-y-4">
-                <div className="relative h-[500px] bg-gradient-to-br from-gray-800 to-gray-700 rounded-xl overflow-hidden">
+              <div className="space-y-3 sm:space-y-4">
+                <div className="relative h-64 sm:h-80 lg:h-[500px] bg-gradient-to-br from-gray-800 to-gray-700 rounded-xl overflow-hidden">
                   <img
                     src={selectedRacket.images[currentImageIndex]}
                     alt={selectedRacket.title}
@@ -625,7 +628,7 @@ export default function MarketplacePage() {
                   />
                   
                   {/* Condition Badge */}
-                  <div className="absolute top-4 left-4 bg-black/70 backdrop-blur-sm px-3 py-1 rounded-full text-sm text-white">
+                  <div className="absolute top-2 sm:top-4 left-2 sm:left-4 bg-black/70 backdrop-blur-sm px-2 sm:px-3 py-1 rounded-full text-xs sm:text-sm text-white">
                     {selectedRacket.condition}
                   </div>
 
@@ -636,12 +639,12 @@ export default function MarketplacePage() {
                       {currentImageIndex > 0 && (
                         <motion.button
                           onClick={prevImage}
-                          className="absolute left-4 top-1/2 transform -translate-y-1/2 w-14 h-14 bg-white/20 backdrop-blur-sm hover:bg-white/30 rounded-full flex items-center justify-center text-white transition-colors z-10 border border-white/30"
+                          className="absolute left-2 sm:left-4 top-1/2 transform -translate-y-1/2 w-10 h-10 sm:w-12 sm:h-12 lg:w-14 lg:h-14 bg-white/20 backdrop-blur-sm hover:bg-white/30 rounded-full flex items-center justify-center text-white transition-colors z-10 border border-white/30"
                           whileHover={{ scale: 1.1 }}
                           whileTap={{ scale: 0.9 }}
                         >
-                          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M15 18L9 12L15 6" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"/>
+                          <svg width="20" height="20" className="sm:w-6 sm:h-6 lg:w-7 lg:h-7" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M15 18L9 12L15 6" stroke="currentColor" strokeWidth="2" className="sm:stroke-[2.5] lg:stroke-3" strokeLinecap="round" strokeLinejoin="round"/>
                           </svg>
                         </motion.button>
                       )}
@@ -650,23 +653,23 @@ export default function MarketplacePage() {
                       {currentImageIndex < selectedRacket.images.length - 1 && (
                         <motion.button
                           onClick={nextImage}
-                          className="absolute right-4 top-1/2 transform -translate-y-1/2 w-14 h-14 bg-white/20 backdrop-blur-sm hover:bg-white/30 rounded-full flex items-center justify-center text-white transition-colors z-10 border border-white/30"
+                          className="absolute right-2 sm:right-4 top-1/2 transform -translate-y-1/2 w-10 h-10 sm:w-12 sm:h-12 lg:w-14 lg:h-14 bg-white/20 backdrop-blur-sm hover:bg-white/30 rounded-full flex items-center justify-center text-white transition-colors z-10 border border-white/30"
                           whileHover={{ scale: 1.1 }}
                           whileTap={{ scale: 0.9 }}
                         >
-                          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M9 18L15 12L9 6" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"/>
+                          <svg width="20" height="20" className="sm:w-6 sm:h-6 lg:w-7 lg:h-7" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M9 18L15 12L9 6" stroke="currentColor" strokeWidth="2" className="sm:stroke-[2.5] lg:stroke-3" strokeLinecap="round" strokeLinejoin="round"/>
                           </svg>
                         </motion.button>
                       )}
 
                       {/* Image Indicators */}
-                      <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex gap-2">
+                      <div className="absolute bottom-2 sm:bottom-4 left-1/2 transform -translate-x-1/2 flex gap-1.5 sm:gap-2">
                         {selectedRacket.images.map((_, index) => (
                           <button
                             key={index}
                             onClick={() => setCurrentImageIndex(index)}
-                            className={`w-3 h-3 rounded-full transition-colors ${
+                            className={`w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full transition-colors ${
                               index === currentImageIndex ? 'bg-white' : 'bg-white/40'
                             }`}
                           />
@@ -678,23 +681,23 @@ export default function MarketplacePage() {
               </div>
 
               {/* Details Section */}
-              <div className="space-y-6">
+              <div className="space-y-4 sm:space-y-6">
                 {/* Price and Brand */}
                 <div>
-                  <div className="text-3xl font-bold text-white mb-2">${selectedRacket.price}</div>
-                  <div className="text-lg text-gray-400">{selectedRacket.brand}</div>
+                  <div className="text-2xl sm:text-3xl font-bold text-white mb-2">${selectedRacket.price}</div>
+                  <div className="text-base sm:text-lg text-gray-400">{selectedRacket.brand}</div>
                 </div>
 
                 {/* Description */}
                 <div>
-                  <h3 className="text-lg font-semibold text-white mb-2">Description</h3>
-                  <p className="text-gray-300">{selectedRacket.description}</p>
+                  <h3 className="text-base sm:text-lg font-semibold text-white mb-2">Description</h3>
+                  <p className="text-sm sm:text-base text-gray-300">{selectedRacket.description}</p>
                 </div>
 
                 {/* Specifications */}
                 <div>
-                  <h3 className="text-lg font-semibold text-white mb-3">Specifications</h3>
-                  <div className="grid grid-cols-2 gap-4 text-sm">
+                  <h3 className="text-base sm:text-lg font-semibold text-white mb-3">Specifications</h3>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-4 text-xs sm:text-sm">
                     <div>
                       <span className="text-gray-400">Weight:</span>
                       <span className="text-white ml-2">{selectedRacket.specifications.weight}</span>
@@ -716,16 +719,16 @@ export default function MarketplacePage() {
 
                 {/* Seller Info */}
                 <div>
-                  <h3 className="text-lg font-semibold text-white mb-3">Seller</h3>
-                  <div className="flex items-center gap-3 p-4 bg-white/5 rounded-xl">
-                    <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center text-white font-bold">
+                  <h3 className="text-base sm:text-lg font-semibold text-white mb-3">Seller</h3>
+                  <div className="flex items-center gap-3 p-3 sm:p-4 bg-white/5 rounded-xl">
+                    <div className="w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center text-white font-bold text-sm sm:text-base">
                       {selectedRacket.seller[0]}
                     </div>
                     <div>
-                      <div className="text-white font-medium">{selectedRacket.seller}</div>
+                      <div className="text-white font-medium text-sm sm:text-base">{selectedRacket.seller}</div>
                       <div className="flex items-center gap-1">
-                        <Star className="text-yellow-400 fill-current" size={14} />
-                        <span className="text-sm text-gray-400">{selectedRacket.rating} rating</span>
+                        <Star className="text-yellow-400 fill-current" size={12} />
+                        <span className="text-xs sm:text-sm text-gray-400">{selectedRacket.rating} rating</span>
                       </div>
                     </div>
                   </div>
@@ -733,11 +736,11 @@ export default function MarketplacePage() {
 
                 {/* Action Buttons */}
                 <div className="flex gap-3">
-                  <button className="flex-1 bg-white text-black py-3 rounded-lg font-semibold hover:bg-gray-100 transition-colors">
+                  <button className="flex-1 bg-white text-black py-2.5 sm:py-3 rounded-lg font-semibold text-sm sm:text-base hover:bg-gray-100 transition-colors">
                     Contact Seller
                   </button>
-                  <button className="w-12 h-12 bg-white/10 hover:bg-white/20 rounded-lg flex items-center justify-center transition-colors">
-                    <Heart size={20} className="text-white" />
+                  <button className="w-10 h-10 sm:w-12 sm:h-12 bg-white/10 hover:bg-white/20 rounded-lg flex items-center justify-center transition-colors">
+                    <Heart size={16} className="sm:w-5 sm:h-5 text-white" />
                   </button>
                 </div>
               </div>

@@ -39,19 +39,19 @@ export default function Header() {
   return (
     <>
     <header 
-      className={`fixed top-0 left-0 right-0 z-50 px-6 py-4 transition-all duration-300 ease-in-out ${
+      className={`fixed top-0 left-0 right-0 z-50 px-4 sm:px-6 py-4 transition-all duration-300 ease-in-out ${
         isVisible 
           ? 'translate-y-0 opacity-100' 
           : '-translate-y-full opacity-0'
       }`}
     >
         <div className="max-w-7xl mx-auto flex items-start justify-between">
-          {/* Logo - Very Top Left, ABSOLUTELY MASSIVE */}
+          {/* Logo - Responsive sizing */}
           <div className="flex-1 relative">
             <img 
               src="/Untitled design (1).png" 
               alt="Untitled Design" 
-              className="h-64 w-auto absolute -top-8 -left-96 z-[9999]"
+              className="h-32 sm:h-48 md:h-64 w-auto absolute -top-4 sm:-top-6 md:-top-8 -left-24 sm:-left-48 md:-left-96 z-[9999]"
               style={{ 
                 position: 'absolute',
                 zIndex: 9999,
@@ -61,36 +61,45 @@ export default function Header() {
             />
         </div>
 
-          {/* Navigation Links - Center, moved down much more */}
-          <nav className="flex items-center space-x-12 mt-16">
+          {/* Navigation Links - Mobile responsive */}
+          <nav className="hidden sm:flex items-center space-x-4 md:space-x-8 lg:space-x-12 mt-8 sm:mt-12 md:mt-16">
             <Link 
               href="/" 
-              className="text-white font-bold text-2xl uppercase tracking-wider hover:opacity-70 transition-opacity"
+              className="text-white font-bold text-sm sm:text-lg md:text-xl lg:text-2xl uppercase tracking-wider hover:opacity-70 transition-opacity"
             >
               Home
             </Link>
           <Link 
             href="#about" 
-            className="text-white font-bold text-2xl uppercase tracking-wider hover:opacity-70 transition-opacity"
+            className="text-white font-bold text-sm sm:text-lg md:text-xl lg:text-2xl uppercase tracking-wider hover:opacity-70 transition-opacity"
           >
             About
           </Link>
           <Link 
             href="#what-we-do" 
-            className="text-white font-bold text-2xl uppercase tracking-wider hover:opacity-70 transition-opacity"
+            className="text-white font-bold text-sm sm:text-lg md:text-xl lg:text-2xl uppercase tracking-wider hover:opacity-70 transition-opacity"
           >
             What We Do
           </Link>
           <Link 
             href="#mission" 
-            className="text-white font-bold text-2xl uppercase tracking-wider hover:opacity-70 transition-opacity"
+            className="text-white font-bold text-sm sm:text-lg md:text-xl lg:text-2xl uppercase tracking-wider hover:opacity-70 transition-opacity"
           >
             Our Mission
           </Link>
         </nav>
 
-        {/* Right Side - Empty for balance */}
-        <div className="flex-1" />
+        {/* Mobile Navigation Menu Button */}
+        <div className="sm:hidden mt-8">
+          <button className="text-white p-2">
+            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+            </svg>
+          </button>
+        </div>
+
+        {/* Right Side - Empty for balance on larger screens */}
+        <div className="hidden sm:block flex-1" />
       </div>
     </header>
 
