@@ -172,20 +172,12 @@ const AuthButtons = () => {
           // This will never show because user gets redirected immediately
           <div className="w-6 h-6 sm:w-8 sm:h-8 border-2 border-white/20 border-t-white rounded-full animate-spin"></div>
         ) : (
-          <>
-            <button
-              onClick={() => setIsAuthModalOpen(true)}
-              className="bg-white text-black px-6 sm:px-8 py-3 sm:py-4 rounded-full font-semibold text-base sm:text-lg hover:bg-gray-100 transition-colors w-full max-w-[180px] sm:max-w-[200px] h-12 sm:h-14 flex items-center justify-center"
-            >
-              Sign In
-            </button>
-            <button
-              onClick={handleMarketplaceClick}
-              className="bg-transparent border-2 border-white text-white px-6 sm:px-8 py-3 sm:py-4 rounded-full font-semibold text-base sm:text-lg hover:bg-white hover:text-black transition-all duration-300 w-full max-w-[180px] sm:max-w-[200px] h-12 sm:h-14 flex items-center justify-center"
-            >
-              Marketplace
-            </button>
-          </>
+          <button
+            onClick={handleMarketplaceClick}
+            className="bg-white text-black px-6 sm:px-8 py-3 sm:py-4 rounded-full font-semibold text-base sm:text-lg hover:bg-gray-100 transition-colors w-full max-w-[180px] sm:max-w-[200px] h-12 sm:h-14 flex items-center justify-center"
+          >
+            Marketplace
+          </button>
         )}
       </div>
 

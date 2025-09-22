@@ -3,7 +3,7 @@
 import { useAuth } from '@/contexts/AuthContext'
 import { useEffect, useState } from 'react'
 import { motion } from 'framer-motion'
-import { Search, Filter, Plus, Heart, Star, DollarSign, User, LogOut, Home, Bell, MessageCircle, Settings } from 'lucide-react'
+import { Search, Filter, Plus, Heart, Star, DollarSign, Home, Settings } from 'lucide-react'
 
 interface RacketListing {
   id: string
@@ -24,75 +24,7 @@ interface RacketListing {
   }
 }
 
-// Sample data - later this will come from Supabase
-const sampleRackets: RacketListing[] = [
-  {
-    id: '1',
-    title: 'Technifibre Carboflex 125 X-Speed',
-    brand: 'Technifibre',
-    price: 185,
-    condition: 'Like New',
-    images: [
-      '/Untitled design (2).png',
-      '/Untitled design (2).png',
-      '/Untitled design (2).png',
-      '/Untitled design (2).png'
-    ],
-    description: 'Professional squash racket used by top players. Excellent condition, barely used.',
-    seller: 'ProSquashPlayer',
-    rating: 4.8,
-    location: 'New York, NY',
-    specifications: {
-      weight: '125g',
-      headSize: '500cm²',
-      stringPattern: '14x18',
-      balance: 'Head Light'
-    }
-  },
-  {
-    id: '2',
-    title: 'Prince Pro Beast 750',
-    brand: 'Prince',
-    price: 220,
-    condition: 'New',
-    images: [
-      '/Untitled design (2).png',
-      '/Untitled design (2).png',
-      '/Untitled design (2).png'
-    ],
-    description: 'Brand new Prince Pro Beast 750. Never used, comes with original packaging.',
-    seller: 'SquashGearPro',
-    rating: 4.9,
-    location: 'Boston, MA',
-    specifications: {
-      weight: '135g',
-      headSize: '750cm²',
-      stringPattern: '16x19',
-      balance: 'Even'
-    }
-  },
-  {
-    id: '3',
-    title: 'Dunlop Biomimetic Pro GTS 130',
-    brand: 'Dunlop',
-    price: 150,
-    condition: 'Good',
-    images: [
-      '/Untitled design (2).png',
-      '/Untitled design (2).png'
-    ],
-    description: 'Great intermediate racket. Some wear but still plays excellently.',
-    seller: 'SquashLover23',
-    rating: 4.5,
-    location: 'Chicago, IL',
-    specifications: {
-      weight: '130g',
-      headSize: '500cm²',
-      stringPattern: '14x18',
-      balance: 'Head Light'
-    }
-  }
-]
+// No more fake data - only real user listings
 
 // Marketplace Header Component
 const MarketplaceHeader = () => {
@@ -257,70 +189,13 @@ const MarketplaceHeader = () => {
             `}</style>
           </motion.nav>
 
-          {/* User Menu - Mobile responsive */}
+          {/* Exit Button - Mobile responsive */}
           <motion.div 
-            className="flex items-center gap-2 sm:gap-3 lg:gap-4"
+            className="flex items-center"
             initial={{ x: 20, opacity: 0 }}
             animate={{ x: 0, opacity: 1 }}
             transition={{ duration: 0.5, delay: 0.6 }}
           >
-            {/* Notifications - Hidden on mobile */}
-            <motion.button 
-              className="hidden sm:flex relative p-2 text-gray-400 hover:text-white transition-colors duration-200 hover:bg-white/5 rounded-full"
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.9 }}
-            >
-              <Bell size={20} className="sm:w-5 sm:h-5 lg:w-6 lg:h-6" />
-              <motion.div 
-                className="absolute -top-1 -right-1 w-2.5 h-2.5 sm:w-3 sm:h-3 bg-red-500 rounded-full border-2 border-black"
-                animate={{ scale: [1, 1.2, 1] }}
-                transition={{ duration: 2, repeat: Infinity }}
-              />
-            </motion.button>
-            
-            {/* Messages - Hidden on mobile */}
-            <motion.button 
-              className="hidden sm:flex p-2 text-gray-400 hover:text-white transition-colors duration-200 hover:bg-white/5 rounded-full"
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.9 }}
-            >
-              <MessageCircle size={20} className="sm:w-5 sm:h-5 lg:w-6 lg:h-6" />
-            </motion.button>
-
-            {/* User Profile - Simplified for mobile */}
-            <motion.div 
-              className="flex items-center gap-1 sm:gap-2 lg:gap-3"
-              whileHover={{ scale: 1.02 }}
-            >
-              <motion.div 
-                className="flex items-center gap-1 sm:gap-2 lg:gap-3 bg-white/10 backdrop-blur-sm border border-white/20 rounded-full px-2 sm:px-3 lg:px-4 py-1 sm:py-1.5 lg:py-2 hover:bg-white/15 transition-colors duration-200"
-                whileHover={{ y: -1 }}
-              >
-                <motion.div
-                  className="w-6 h-6 sm:w-7 sm:h-7 lg:w-8 lg:h-8 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center"
-                  whileHover={{ rotate: 180 }}
-                  transition={{ duration: 0.3 }}
-                >
-                  <User size={14} className="sm:w-4 sm:h-4 lg:w-5 lg:h-5 text-white" />
-                </motion.div>
-                <span className="text-white text-xs sm:text-sm font-medium hidden md:block">
-                  {user?.user_metadata?.full_name || user?.email?.split('@')[0] || 'Guest'}
-                </span>
-              </motion.div>
-              
-              {/* Sign Out / Sign In - Smaller on mobile */}
-              <motion.button
-                onClick={user ? handleSignOut : () => window.location.href = '/'}
-                className="flex items-center justify-center w-7 h-7 sm:w-8 sm:h-8 lg:w-9 lg:h-9 bg-white/10 hover:bg-red-500/20 backdrop-blur-sm border border-white/20 hover:border-red-500/40 rounded-full text-white transition-all duration-200"
-                whileHover={{ scale: 1.05, y: -1 }}
-                whileTap={{ scale: 0.95 }}
-                title={user ? 'Sign Out' : 'Sign In'}
-              >
-                {user ? <LogOut size={12} className="sm:w-3.5 sm:h-3.5 lg:w-4 lg:h-4" /> : <User size={12} className="sm:w-3.5 sm:h-3.5 lg:w-4 lg:h-4" />}
-              </motion.button>
-            </motion.div>
-
-            {/* Exit Button - Simplified for mobile */}
             <motion.a 
               href="/"
               className="flex items-center gap-1 sm:gap-2 text-gray-400 hover:text-white transition-colors duration-200 bg-white/5 hover:bg-white/10 rounded-full px-2 sm:px-3 py-1 sm:py-1.5 lg:py-2 border border-white/10 hover:border-white/20"
@@ -339,13 +214,58 @@ const MarketplaceHeader = () => {
 
 export default function MarketplacePage() {
   const { user, loading } = useAuth()
-  const [rackets, setRackets] = useState<RacketListing[]>(sampleRackets)
+  const [rackets, setRackets] = useState<RacketListing[]>([])
   const [searchTerm, setSearchTerm] = useState('')
   const [sortBy, setSortBy] = useState('newest')
   const [filterCondition, setFilterCondition] = useState('all')
   const [selectedRacket, setSelectedRacket] = useState<RacketListing | null>(null)
   const [isLoadingMore, setIsLoadingMore] = useState(false)
   const [currentImageIndex, setCurrentImageIndex] = useState(0)
+  const [favorites, setFavorites] = useState<string[]>([])
+
+  // Load real listings and favorites from localStorage on component mount
+  useEffect(() => {
+    const loadData = () => {
+      // Load real user listings
+      const storedListings = JSON.parse(localStorage.getItem('userListings') || '[]')
+      setRackets(storedListings)
+      
+      // Load favorites
+      const storedFavorites = JSON.parse(localStorage.getItem('favorites') || '[]')
+      const favoriteIds = storedFavorites.map((item: any) => item.id)
+      setFavorites(favoriteIds)
+    }
+    
+    loadData()
+    
+    // Listen for storage changes to update when new listings are added
+    const handleStorageChange = (e: StorageEvent) => {
+      if (e.key === 'userListings') {
+        const updatedListings = JSON.parse(e.newValue || '[]')
+        setRackets(updatedListings)
+      }
+    }
+    
+    window.addEventListener('storage', handleStorageChange)
+    return () => window.removeEventListener('storage', handleStorageChange)
+  }, [])
+
+  const toggleFavorite = (racket: RacketListing) => {
+    const currentFavorites = JSON.parse(localStorage.getItem('favorites') || '[]')
+    const isCurrentlyFavorited = favorites.includes(racket.id)
+    
+    if (isCurrentlyFavorited) {
+      // Remove from favorites
+      const updatedFavorites = currentFavorites.filter((item: any) => item.id !== racket.id)
+      localStorage.setItem('favorites', JSON.stringify(updatedFavorites))
+      setFavorites(prev => prev.filter(id => id !== racket.id))
+    } else {
+      // Add to favorites
+      const updatedFavorites = [...currentFavorites, racket]
+      localStorage.setItem('favorites', JSON.stringify(updatedFavorites))
+      setFavorites(prev => [...prev, racket.id])
+    }
+  }
 
   // Allow browsing without authentication
   // useEffect(() => {
@@ -361,41 +281,7 @@ export default function MarketplacePage() {
     }
   }, [selectedRacket])
 
-  // Infinite scroll effect
-  useEffect(() => {
-    const handleScroll = () => {
-      if (window.innerHeight + document.documentElement.scrollTop !== document.documentElement.offsetHeight || isLoadingMore) {
-        return
-      }
-      loadMoreRackets()
-    }
-
-    window.addEventListener('scroll', handleScroll)
-    return () => window.removeEventListener('scroll', handleScroll)
-  }, [isLoadingMore])
-
-  const loadMoreRackets = async () => {
-    setIsLoadingMore(true)
-    // Simulate API call delay
-    await new Promise(resolve => setTimeout(resolve, 1000))
-    
-    // Add more sample rackets (duplicating existing ones with new IDs and multiple images)
-    const moreRackets = sampleRackets.map((racket, index) => ({
-      ...racket,
-      id: `${racket.id}-${Date.now()}-${index}`,
-      title: `${racket.title} - ${Math.floor(Math.random() * 100)}`,
-      price: racket.price + Math.floor(Math.random() * 50) - 25,
-      images: [
-        racket.images[0],
-        racket.images[0], // Duplicate for demo - in real app these would be different images
-        racket.images[0],
-        racket.images[0]
-      ]
-    }))
-    
-    setRackets(prev => [...prev, ...moreRackets])
-    setIsLoadingMore(false)
-  }
+  // Remove infinite scroll since we're using real data only
 
   const nextImage = () => {
     if (selectedRacket && currentImageIndex < selectedRacket.images.length - 1) {
@@ -503,8 +389,31 @@ export default function MarketplacePage() {
 
         {/* Racket Grid */}
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
-            {filteredRackets.map((racket, index) => (
+          {filteredRackets.length === 0 ? (
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="text-center py-16"
+            >
+              <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-3xl p-8 max-w-lg mx-auto">
+                <div className="w-20 h-20 bg-gray-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <div className="text-4xl">🎾</div>
+                </div>
+                <h3 className="text-2xl font-semibold text-white mb-2">No racket listings yet</h3>
+                <p className="text-gray-400 mb-6">Be the first to list a racket on the marketplace!</p>
+                <motion.a
+                  href="/sell"
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  className="bg-white text-black py-3 px-6 rounded-xl font-semibold hover:bg-gray-100 transition-colors inline-block"
+                >
+                  List Your Racket
+                </motion.a>
+              </div>
+            </motion.div>
+          ) : (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
+              {filteredRackets.map((racket, index) => (
               <motion.div
                 key={racket.id}
                 initial={{ opacity: 0, y: 20 }}
@@ -522,13 +431,22 @@ export default function MarketplacePage() {
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                   />
                   <button 
-                    className="absolute top-2 sm:top-3 right-2 sm:right-3 w-7 h-7 sm:w-8 sm:h-8 bg-black/50 backdrop-blur-sm rounded-full flex items-center justify-center text-white/70 hover:text-red-400 transition-colors"
+                    className={`absolute top-2 sm:top-3 right-2 sm:right-3 w-7 h-7 sm:w-8 sm:h-8 backdrop-blur-sm rounded-full flex items-center justify-center transition-colors ${
+                      favorites.includes(racket.id) 
+                        ? 'bg-red-500/80 hover:bg-red-500 text-white' 
+                        : 'bg-black/50 text-white/70 hover:text-red-400'
+                    }`}
                     onClick={(e) => {
                       e.stopPropagation()
-                      // Add to favorites logic here
+                      toggleFavorite(racket)
                     }}
                   >
-                    <Heart size={14} className="sm:w-4 sm:h-4" />
+                    <Heart 
+                      size={14} 
+                      className={`sm:w-4 sm:h-4 ${
+                        favorites.includes(racket.id) ? 'fill-current' : ''
+                      }`} 
+                    />
                   </button>
                   <div className="absolute bottom-2 sm:bottom-3 left-2 sm:left-3 bg-black/70 backdrop-blur-sm px-2 py-1 rounded-full text-xs text-white">
                     {racket.condition}
@@ -573,18 +491,7 @@ export default function MarketplacePage() {
                 </div>
               </motion.div>
             ))}
-          </div>
-
-          {/* Loading indicator */}
-          {isLoadingMore && (
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              className="text-center py-12"
-            >
-              <div className="w-8 h-8 border-2 border-white/20 border-t-white rounded-full animate-spin mx-auto"></div>
-              <p className="text-gray-400 mt-4">Loading more rackets...</p>
-            </motion.div>
+            </div>
           )}
         </div>
       </div>
@@ -739,8 +646,25 @@ export default function MarketplacePage() {
                   <button className="flex-1 bg-white text-black py-2.5 sm:py-3 rounded-lg font-semibold text-sm sm:text-base hover:bg-gray-100 transition-colors">
                     Contact Seller
                   </button>
-                  <button className="w-10 h-10 sm:w-12 sm:h-12 bg-white/10 hover:bg-white/20 rounded-lg flex items-center justify-center transition-colors">
-                    <Heart size={16} className="sm:w-5 sm:h-5 text-white" />
+                  <button className="flex-1 bg-green-600 text-white py-2.5 sm:py-3 rounded-lg font-semibold text-sm sm:text-base hover:bg-green-700 transition-colors">
+                    Buy Now
+                  </button>
+                  <button 
+                    onClick={() => toggleFavorite(selectedRacket)}
+                    className={`w-10 h-10 sm:w-12 sm:h-12 rounded-lg flex items-center justify-center transition-colors ${
+                      favorites.includes(selectedRacket.id) 
+                        ? 'bg-red-500 hover:bg-red-600' 
+                        : 'bg-white/10 hover:bg-white/20'
+                    }`}
+                  >
+                    <Heart 
+                      size={16} 
+                      className={`sm:w-5 sm:h-5 ${
+                        favorites.includes(selectedRacket.id) 
+                          ? 'text-white fill-current' 
+                          : 'text-white'
+                      }`} 
+                    />
                   </button>
                 </div>
               </div>

@@ -3,7 +3,7 @@
 import { useAuth } from '@/contexts/AuthContext'
 import { useEffect, useState } from 'react'
 import { motion } from 'framer-motion'
-import { ArrowLeft, Upload, DollarSign, Info, User, LogOut, Home, Bell, MessageCircle } from 'lucide-react'
+import { ArrowLeft, Upload, DollarSign, Info, Home, CheckCircle } from 'lucide-react'
 
 // Marketplace Header Component
 const MarketplaceHeader = () => {
@@ -168,70 +168,13 @@ const MarketplaceHeader = () => {
             `}</style>
           </motion.nav>
 
-          {/* User Menu - Far Right */}
+          {/* Exit Button - Far Right */}
           <motion.div 
-            className="flex items-center gap-4"
+            className="flex items-center"
             initial={{ x: 20, opacity: 0 }}
             animate={{ x: 0, opacity: 1 }}
             transition={{ duration: 0.5, delay: 0.6 }}
           >
-            {/* Notifications */}
-            <motion.button 
-              className="relative p-2 text-gray-400 hover:text-white transition-colors duration-200 hover:bg-white/5 rounded-full"
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.9 }}
-            >
-              <Bell size={24} />
-              <motion.div 
-                className="absolute -top-1 -right-1 w-3 h-3 bg-red-500 rounded-full border-2 border-black"
-                animate={{ scale: [1, 1.2, 1] }}
-                transition={{ duration: 2, repeat: Infinity }}
-              />
-            </motion.button>
-            
-            {/* Messages */}
-            <motion.button 
-              className="p-2 text-gray-400 hover:text-white transition-colors duration-200 hover:bg-white/5 rounded-full"
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.9 }}
-            >
-              <MessageCircle size={24} />
-            </motion.button>
-
-            {/* User Profile */}
-            <motion.div 
-              className="flex items-center gap-3"
-              whileHover={{ scale: 1.02 }}
-            >
-              <motion.div 
-                className="flex items-center gap-3 bg-white/10 backdrop-blur-sm border border-white/20 rounded-full px-4 py-2 hover:bg-white/15 transition-colors duration-200"
-                whileHover={{ y: -1 }}
-              >
-                <motion.div
-                  className="w-8 h-8 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center"
-                  whileHover={{ rotate: 180 }}
-                  transition={{ duration: 0.3 }}
-                >
-                  <User size={18} className="text-white" />
-                </motion.div>
-                <span className="text-white text-sm font-medium hidden sm:block">
-                  {user?.user_metadata?.full_name || user?.email?.split('@')[0] || 'Guest'}
-                </span>
-              </motion.div>
-              
-              {/* Sign Out / Sign In */}
-              <motion.button
-                onClick={user ? handleSignOut : () => window.location.href = '/'}
-                className="flex items-center justify-center w-9 h-9 bg-white/10 hover:bg-red-500/20 backdrop-blur-sm border border-white/20 hover:border-red-500/40 rounded-full text-white transition-all duration-200"
-                whileHover={{ scale: 1.05, y: -1 }}
-                whileTap={{ scale: 0.95 }}
-                title={user ? 'Sign Out' : 'Sign In'}
-              >
-                {user ? <LogOut size={16} /> : <User size={16} />}
-              </motion.button>
-            </motion.div>
-
-            {/* Exit Button */}
             <motion.a 
               href="/"
               className="flex items-center gap-2 text-gray-400 hover:text-white transition-colors duration-200 bg-white/5 hover:bg-white/10 rounded-full px-3 py-2 border border-white/10 hover:border-white/20"
@@ -258,6 +201,8 @@ export default function SellPage() {
     description: '',
     images: [] as File[]
   })
+  const [isSubmitted, setIsSubmitted] = useState(false)
+  const [isSubmitting, setIsSubmitting] = useState(false)
 
   // Allow access without authentication for now
   // useEffect(() => {
@@ -266,11 +211,51 @@ export default function SellPage() {
   //   }
   // }, [user, loading])
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    // TODO: Submit to Supabase
-    console.log('Listing submitted:', formData)
-    alert('Racket listed successfully! (Demo)')
+    setIsSubmitting(true)
+    
+    // Simulate API call delay
+    await new Promise(resolve => setTimeout(resolve, 1500))
+    
+    // Store the listing in localStorage for now (until we have a proper backend)
+    const existingListings = JSON.parse(localStorage.getItem('userListings') || '[]')
+    const newListing = {
+      id: Date.now().toString(),
+      title: formData.title,
+      brand: formData.brand,
+      price: parseInt(formData.price),
+      condition: formData.condition as 'New' | 'Like New' | 'Good' | 'Fair',
+      images: formData.images.length > 0 ? ['/Untitled design (2).png'] : ['/Untitled design (2).png'], // Placeholder image for now
+      description: formData.description,
+      seller: user?.user_metadata?.full_name || user?.email?.split('@')[0] || 'Anonymous',
+      rating: 4.8,
+      location: 'Location not specified',
+      specifications: {
+        weight: 'Not specified',
+        headSize: 'Not specified', 
+        stringPattern: 'Not specified',
+        balance: 'Not specified'
+      },
+      dateAdded: new Date().toISOString()
+    }
+    existingListings.push(newListing)
+    localStorage.setItem('userListings', JSON.stringify(existingListings))
+    
+    setIsSubmitting(false)
+    setIsSubmitted(true)
+  }
+
+  const handleListAnother = () => {
+    setIsSubmitted(false)
+    setFormData({
+      title: '',
+      brand: '',
+      price: '',
+      condition: 'Like New',
+      description: '',
+      images: []
+    })
   }
 
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -299,7 +284,7 @@ export default function SellPage() {
 
       {/* Main Content */}
       <div className="pt-28">
-        <div className="max-w-4xl mx-auto px-8">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Header */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -313,143 +298,192 @@ export default function SellPage() {
               <ArrowLeft size={24} />
               Back to Marketplace
             </a>
-            <h1 className="text-5xl font-bold mb-2">Sell Your Racket</h1>
-            <p className="text-gray-400 text-xl">List your squash racket and connect with buyers</p>
+            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-2">Sell Your Racket</h1>
+            <p className="text-gray-400 text-lg sm:text-xl">List your squash racket and connect with buyers</p>
           </motion.div>
 
-          {/* Form */}
-          <motion.form
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.1 }}
-            onSubmit={handleSubmit}
-            className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-3xl p-6"
-          >
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {/* Basic Info */}
-              <div className="md:col-span-2">
-                <h2 className="text-xl font-semibold mb-3 flex items-center gap-2">
-                  <Info size={24} />
-                  Basic Information
-                </h2>
-              </div>
-
-              <div>
-                <label className="block text-lg font-medium mb-2 text-white">Racket Title</label>
-                <input
-                  type="text"
-                  required
-                  placeholder="e.g., Technifibre Carboflex 125 X-Speed"
-                  value={formData.title}
-                  onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-                  className="w-full bg-white/5 border border-white/10 rounded-xl py-3 px-4 text-white text-lg placeholder-gray-400 focus:outline-none focus:border-white/30 focus:ring-2 focus:ring-white/10 transition-all"
-                />
-              </div>
-
-              <div>
-                <label className="block text-lg font-medium mb-2 text-white">Brand</label>
-                <select
-                  required
-                  value={formData.brand}
-                  onChange={(e) => setFormData({ ...formData, brand: e.target.value })}
-                  className="w-full bg-white/5 border border-white/10 rounded-xl py-3 px-4 text-white text-lg focus:outline-none focus:border-white/30 focus:ring-2 focus:ring-white/10 transition-all"
+          {/* Form or Success State */}
+          {isSubmitted ? (
+            <motion.div
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ delay: 0.1, type: "spring", stiffness: 100 }}
+              className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-3xl p-4 sm:p-6 lg:p-8 text-center"
+            >
+              <motion.div
+                initial={{ scale: 0 }}
+                animate={{ scale: 1 }}
+                transition={{ delay: 0.3, type: "spring", stiffness: 200 }}
+                className="mb-6"
+              >
+                <CheckCircle size={80} className="text-green-500 mx-auto mb-4" />
+                <h2 className="text-3xl font-bold text-white mb-2">Success!</h2>
+                <p className="text-gray-400 text-lg">Your racket has been listed successfully</p>
+              </motion.div>
+              
+              <div className="flex flex-col sm:flex-row gap-4 justify-center max-w-md mx-auto">
+                <motion.button
+                  onClick={handleListAnother}
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  className="bg-white text-black py-3 px-6 rounded-xl font-semibold hover:bg-gray-100 transition-colors"
                 >
-                  <option value="">Select Brand</option>
-                  <option value="Technifibre">Technifibre</option>
-                  <option value="Prince">Prince</option>
-                  <option value="Dunlop">Dunlop</option>
-                  <option value="Head">Head</option>
-                  <option value="Wilson">Wilson</option>
-                  <option value="Babolat">Babolat</option>
-                  <option value="Other">Other</option>
-                </select>
+                  List Another Racket
+                </motion.button>
+                <motion.a
+                  href="/marketplace"
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  className="bg-transparent border-2 border-white text-white py-3 px-6 rounded-xl font-semibold hover:bg-white hover:text-black transition-all duration-300"
+                >
+                  View Marketplace
+                </motion.a>
               </div>
-
-              <div>
-                <label className="block text-lg font-medium mb-2 text-white">Price (USD)</label>
-                <div className="relative">
-                  <DollarSign className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400" size={24} />
+            </motion.div>
+          ) : (
+            <motion.form
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.1 }}
+              onSubmit={handleSubmit}
+              className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-3xl p-4 sm:p-6 lg:p-8"
+            >
+            {/* Basic Information Section */}
+            <div className="mb-8">
+              <h2 className="text-2xl font-semibold mb-6 flex items-center gap-3 text-white">
+                <Info size={28} />
+                Basic Information
+              </h2>
+              
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
+                <div className="space-y-2">
+                  <label className="block text-lg font-medium text-white">Racket Title</label>
                   <input
-                    type="number"
+                    type="text"
                     required
-                    placeholder="150"
-                    value={formData.price}
-                    onChange={(e) => setFormData({ ...formData, price: e.target.value })}
-                    className="w-full bg-white/5 border border-white/10 rounded-xl py-3 pl-12 pr-4 text-white text-lg placeholder-gray-400 focus:outline-none focus:border-white/30 focus:ring-2 focus:ring-white/10 transition-all"
+                    placeholder="e.g., Technifibre Carboflex 125 X-Speed"
+                    value={formData.title}
+                    onChange={(e) => setFormData({ ...formData, title: e.target.value })}
+                    className="w-full bg-white/5 border border-white/10 rounded-xl py-4 px-4 text-white text-lg placeholder-gray-400 focus:outline-none focus:border-white/30 focus:ring-2 focus:ring-white/10 transition-all"
                   />
+                </div>
+
+                <div className="space-y-2">
+                  <label className="block text-lg font-medium text-white">Brand</label>
+                  <select
+                    required
+                    value={formData.brand}
+                    onChange={(e) => setFormData({ ...formData, brand: e.target.value })}
+                    className="w-full bg-white/5 border border-white/10 rounded-xl py-4 px-4 text-white text-lg focus:outline-none focus:border-white/30 focus:ring-2 focus:ring-white/10 transition-all"
+                  >
+                    <option value="">Select Brand</option>
+                    <option value="Technifibre">Technifibre</option>
+                    <option value="Prince">Prince</option>
+                    <option value="Dunlop">Dunlop</option>
+                    <option value="Head">Head</option>
+                    <option value="Wilson">Wilson</option>
+                    <option value="Babolat">Babolat</option>
+                    <option value="Other">Other</option>
+                  </select>
+                </div>
+
+                <div className="space-y-2">
+                  <label className="block text-lg font-medium text-white">Price (USD)</label>
+                  <div className="relative">
+                    <DollarSign className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400" size={24} />
+                    <input
+                      type="number"
+                      required
+                      placeholder="150"
+                      value={formData.price}
+                      onChange={(e) => setFormData({ ...formData, price: e.target.value })}
+                      className="w-full bg-white/5 border border-white/10 rounded-xl py-4 pl-12 pr-4 text-white text-lg placeholder-gray-400 focus:outline-none focus:border-white/30 focus:ring-2 focus:ring-white/10 transition-all"
+                    />
+                  </div>
+                </div>
+
+                <div className="space-y-2">
+                  <label className="block text-lg font-medium text-white">Condition</label>
+                  <select
+                    value={formData.condition}
+                    onChange={(e) => setFormData({ ...formData, condition: e.target.value })}
+                    className="w-full bg-white/5 border border-white/10 rounded-xl py-4 px-4 text-white text-lg focus:outline-none focus:border-white/30 focus:ring-2 focus:ring-white/10 transition-all"
+                  >
+                    <option value="New">New</option>
+                    <option value="Like New">Like New</option>
+                    <option value="Good">Good</option>
+                    <option value="Fair">Fair</option>
+                  </select>
                 </div>
               </div>
 
-              <div>
-                <label className="block text-lg font-medium mb-2 text-white">Condition</label>
-                <select
-                  value={formData.condition}
-                  onChange={(e) => setFormData({ ...formData, condition: e.target.value })}
-                  className="w-full bg-white/5 border border-white/10 rounded-xl py-3 px-4 text-white text-lg focus:outline-none focus:border-white/30 focus:ring-2 focus:ring-white/10 transition-all"
-                >
-                  <option value="New">New</option>
-                  <option value="Like New">Like New</option>
-                  <option value="Good">Good</option>
-                  <option value="Fair">Fair</option>
-                </select>
-              </div>
-
-              {/* Description */}
-              <div className="md:col-span-4">
-                <label className="block text-lg font-medium mb-2 text-white">Description</label>
+              {/* Description - Full Width */}
+              <div className="mt-6 space-y-2">
+                <label className="block text-lg font-medium text-white">Description</label>
                 <textarea
                   required
-                  rows={2}
+                  rows={4}
                   placeholder="Describe your racket's condition, history, and any notable features..."
                   value={formData.description}
                   onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-                  className="w-full bg-white/5 border border-white/10 rounded-xl py-3 px-4 text-white text-lg placeholder-gray-400 focus:outline-none focus:border-white/30 focus:ring-2 focus:ring-white/10 transition-all resize-none"
+                  className="w-full bg-white/5 border border-white/10 rounded-xl py-4 px-4 text-white text-lg placeholder-gray-400 focus:outline-none focus:border-white/30 focus:ring-2 focus:ring-white/10 transition-all resize-none"
                 />
               </div>
+            </div>
 
-
-
-              {/* Images and Submit on same row */}
-              <div className="md:col-span-2 mt-4">
-                <label className="block text-lg font-medium mb-3 text-white">Photos</label>
-                <div className="border-2 border-dashed border-white/20 rounded-xl p-6 text-center hover:border-white/30 transition-colors">
-                  <Upload className="mx-auto mb-3 text-gray-400" size={40} />
-                  <p className="text-gray-400 mb-3 text-base">Upload photos of your racket</p>
-                  <input
-                    type="file"
-                    multiple
-                    accept="image/*"
-                    onChange={handleImageUpload}
-                    className="hidden"
-                    id="image-upload"
-                  />
-                  <label
-                    htmlFor="image-upload"
-                    className="bg-white text-black px-6 py-3 rounded-xl font-semibold cursor-pointer hover:bg-gray-100 transition-colors inline-block text-base"
-                  >
-                    Choose Files
-                  </label>
-                  {formData.images.length > 0 && (
-                    <p className="text-sm text-gray-400 mt-2">
-                      {formData.images.length} file(s) selected
-                    </p>
-                  )}
-                </div>
-              </div>
-
-              {/* Submit Button */}
-              <div className="md:col-span-2 mt-6">
-                <motion.button
-                  type="submit"
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
-                  className="w-full bg-white text-black py-4 rounded-xl font-bold text-lg hover:bg-gray-100 transition-colors shadow-lg"
+            {/* Photos Section */}
+            <div className="mb-8">
+              <h2 className="text-2xl font-semibold mb-6 flex items-center gap-3 text-white">
+                <Upload size={28} />
+                Photos
+              </h2>
+              
+              <div className="border-2 border-dashed border-white/20 rounded-xl p-8 text-center hover:border-white/30 transition-colors">
+                <Upload className="mx-auto mb-4 text-gray-400" size={48} />
+                <p className="text-gray-400 mb-4 text-lg">Upload photos of your racket</p>
+                <input
+                  type="file"
+                  multiple
+                  accept="image/*"
+                  onChange={handleImageUpload}
+                  className="hidden"
+                  id="image-upload"
+                />
+                <label
+                  htmlFor="image-upload"
+                  className="bg-white text-black px-8 py-3 rounded-xl font-semibold cursor-pointer hover:bg-gray-100 transition-colors inline-block text-lg"
                 >
-                  List My Racket
-                </motion.button>
+                  Choose Files
+                </label>
+                {formData.images.length > 0 && (
+                  <p className="text-sm text-gray-400 mt-3">
+                    {formData.images.length} file(s) selected
+                  </p>
+                )}
               </div>
             </div>
+
+            {/* Submit Button */}
+            <div className="flex justify-center">
+              <motion.button
+                type="submit"
+                disabled={isSubmitting}
+                whileHover={{ scale: isSubmitting ? 1 : 1.02 }}
+                whileTap={{ scale: isSubmitting ? 1 : 0.98 }}
+                className="bg-white text-black py-4 px-8 sm:px-12 rounded-xl font-bold text-lg sm:text-xl hover:bg-gray-100 transition-colors shadow-lg min-w-[180px] sm:min-w-[200px] disabled:opacity-70 disabled:cursor-not-allowed"
+              >
+                {isSubmitting ? (
+                  <div className="flex items-center gap-2">
+                    <div className="w-5 h-5 border-2 border-black/30 border-t-black rounded-full animate-spin"></div>
+                    Listing...
+                  </div>
+                ) : (
+                  'List My Racket'
+                )}
+              </motion.button>
+            </div>
           </motion.form>
+          )}
         </div>
       </div>
     </div>
