@@ -198,6 +198,8 @@ export default function SellPage() {
     brand: '',
     price: '',
     condition: 'Like New',
+    type: 'squash',
+    email: '',
     description: '',
     images: [] as File[]
   })
@@ -226,6 +228,8 @@ export default function SellPage() {
       brand: formData.brand,
       price: parseInt(formData.price),
       condition: formData.condition as 'New' | 'Like New' | 'Good' | 'Fair',
+      type: formData.type as 'squash' | 'tennis' | 'padel',
+      email: formData.email,
       images: formData.images.length > 0 ? ['/Untitled design (2).png'] : ['/Untitled design (2).png'], // Placeholder image for now
       description: formData.description,
       seller: user?.user_metadata?.full_name || user?.email?.split('@')[0] || 'Anonymous',
@@ -385,6 +389,32 @@ export default function SellPage() {
                     <option value="Babolat">Babolat</option>
                     <option value="Other">Other</option>
                   </select>
+                </div>
+
+                <div className="space-y-2">
+                  <label className="block text-lg font-medium text-white">Racket Type</label>
+                  <select
+                    required
+                    value={formData.type}
+                    onChange={(e) => setFormData({ ...formData, type: e.target.value })}
+                    className="w-full bg-white/5 border border-white/10 rounded-xl py-4 px-4 text-white text-lg focus:outline-none focus:border-white/30 focus:ring-2 focus:ring-white/10 transition-all"
+                  >
+                    <option value="squash">Squash</option>
+                    <option value="tennis">Tennis</option>
+                    <option value="padel">Padel</option>
+                  </select>
+                </div>
+
+                <div className="space-y-2">
+                  <label className="block text-lg font-medium text-white">List Your Email</label>
+                  <input
+                    type="email"
+                    required
+                    placeholder="your.email@example.com"
+                    value={formData.email}
+                    onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                    className="w-full bg-white/5 border border-white/10 rounded-xl py-4 px-4 text-white text-lg placeholder-gray-400 focus:outline-none focus:border-white/30 focus:ring-2 focus:ring-white/10 transition-all"
+                  />
                 </div>
 
                 <div className="space-y-2">
