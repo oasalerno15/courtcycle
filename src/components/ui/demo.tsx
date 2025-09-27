@@ -515,7 +515,11 @@ const DemoOne = () => {
               showUserInfo={true}
               enableTilt={true}
               enableMobileTilt={false}
-              onContactClick={() => window.open('mailto:ali.hamdard@icloud.com?subject=Contact from Squash Marketplace', '_blank')}
+              onContactClick={() => {
+                if (typeof window !== 'undefined') {
+                  window.open('mailto:ali.hamdard@icloud.com?subject=Contact from Squash Marketplace', '_blank')
+                }
+              }}
             />
           </motion.div>
         </div>

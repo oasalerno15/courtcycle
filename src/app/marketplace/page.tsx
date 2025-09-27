@@ -252,6 +252,8 @@ export default function MarketplacePage() {
   }
 
   const handleContactSeller = (racket: RacketListing) => {
+    if (typeof window === 'undefined') return
+    
     const subject = `Inquiry about ${racket.title} - CourtCycle Marketplace`
     const body = `Hi,\n\nI'm interested in your ${racket.title} listed on CourtCycle Marketplace.\n\nCould you please provide more information about:\n- Condition details\n- Availability\n- Any additional photos\n- Shipping options\n\nThank you!\n\nBest regards`
     
