@@ -282,7 +282,7 @@ export default function FavoritesPage() {
                     <div className="aspect-square bg-gradient-to-br from-slate-800 to-slate-900 flex items-center justify-center relative overflow-hidden">
                       {racket.images && racket.images.length > 0 ? (
                         <img 
-                          src={racket.images[0]} 
+                          src={racket.images?.[0] || '/new.png'} 
                           alt={racket.title}
                           className="w-full h-full object-cover"
                         />

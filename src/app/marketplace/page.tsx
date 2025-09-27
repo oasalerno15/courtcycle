@@ -485,7 +485,7 @@ export default function MarketplacePage() {
                 {/* Image */}
                 <div className="relative h-40 sm:h-48 bg-gradient-to-br from-gray-800 to-gray-900">
                   <img
-                    src={racket.images[0]}
+                    src={racket.images?.[0] || '/new.png'}
                     alt={racket.title}
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                   />
@@ -535,7 +535,7 @@ export default function MarketplacePage() {
                   <div className="flex items-center justify-between pt-2 sm:pt-3 border-t border-white/10">
                     <div className="flex items-center gap-2">
                       <div className="w-5 h-5 sm:w-6 sm:h-6 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center text-white text-xs font-bold">
-                        {racket.email[0]}
+                        {racket.email?.[0] || 'A'}
                       </div>
                       <span className="text-xs sm:text-sm text-gray-400 truncate">{racket.email}</span>
                     </div>
@@ -665,7 +665,7 @@ export default function MarketplacePage() {
                   <h3 className="text-base sm:text-lg font-semibold text-white mb-3">Seller</h3>
                   <div className="flex items-center gap-3 p-3 sm:p-4 bg-white/5 rounded-xl">
                     <div className="w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center text-white font-bold text-sm sm:text-base">
-                      {selectedRacket.email[0]}
+                      {selectedRacket.email?.[0] || 'A'}
                     </div>
                     <div>
                       <div className="text-white font-medium text-sm sm:text-base">{selectedRacket.email}</div>

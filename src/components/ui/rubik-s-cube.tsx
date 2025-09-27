@@ -233,18 +233,33 @@ export function Scene() {
   const [isDesktop, setIsDesktop] = useState(true);
   const [racketPosition, setRacketPosition] = useState({ x: 0, y: 0, z: 2 });
   const [racketRotation, setRacketRotation] = useState({ x: -0.704, y: 0.481, z: 0.000 });
+  const [isClient, setIsClient] = useState(false);
 
   useEffect(() => {
+    setIsClient(true);
+    
     const checkIsDesktop = () => {
-      setIsDesktop(window.innerWidth >= 768);
+      if (typeof window !== 'undefined') {
+        setIsDesktop(window.innerWidth >= 768);
+      }
     };
 
     checkIsDesktop();
 
-    window.addEventListener("resize", checkIsDesktop);
+    if (typeof window !== 'undefined') {
+      window.addEventListener("resize", checkIsDesktop);
+    }
 
-    return () => window.removeEventListener("resize", checkIsDesktop);
+    return () => {
+      if (typeof window !== 'undefined') {
+        window.removeEventListener("resize", checkIsDesktop);
+      }
+    };
   }, []);
+
+  if (!isClient) {
+    return <div className="h-svh w-full relative bg-black overflow-hidden" />;
+  }
 
   return (
     <div className="h-svh w-full relative bg-black overflow-hidden">
