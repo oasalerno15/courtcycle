@@ -9,12 +9,22 @@ interface UserListing {
   id: string
   title: string
   brand: string
-  price: string
-  condition: string
+  price: number
+  condition: 'New' | 'Like New' | 'Good' | 'Fair'
+  type: 'squash' | 'tennis' | 'padel'
+  email: string
+  images: string[]
   description: string
-  dateAdded: string
   seller: string
   rating: number
+  location: string
+  specifications: {
+    weight: string
+    headSize: string
+    stringPattern: string
+    balance: string
+  }
+  dateAdded: string
 }
 
 // Marketplace Header Component
@@ -206,6 +216,16 @@ const MarketplaceHeader = () => {
 export default function MyListingsPage() {
   const { user, loading } = useAuth()
   const [listings, setListings] = useState<UserListing[]>([])
+  const [editingListing, setEditingListing] = useState<UserListing | null>(null)
+  const [editFormData, setEditFormData] = useState({
+    title: '',
+    brand: '',
+    price: '',
+    condition: 'Like New' as 'New' | 'Like New' | 'Good' | 'Fair',
+    type: 'squash' as 'squash' | 'tennis' | 'padel',
+    email: '',
+    description: ''
+  })
 
   useEffect(() => {
     // Load user listings from localStorage
@@ -222,6 +242,55 @@ export default function MyListingsPage() {
     const currentFavorites = JSON.parse(localStorage.getItem('favorites') || '[]')
     const updatedFavorites = currentFavorites.filter((item: any) => item.id !== id)
     localStorage.setItem('favorites', JSON.stringify(updatedFavorites))
+  }
+
+  const handleEditListing = (listing: UserListing) => {
+    setEditingListing(listing)
+    setEditFormData({
+      title: listing.title,
+      brand: listing.brand,
+      price: listing.price.toString(),
+      condition: listing.condition,
+      type: listing.type,
+      email: listing.email,
+      description: listing.description
+    })
+  }
+
+  const handleSaveEdit = () => {
+    if (!editingListing) return
+
+    const updatedListings = listings.map(listing => 
+      listing.id === editingListing.id 
+        ? {
+            ...listing,
+            title: editFormData.title,
+            brand: editFormData.brand,
+            price: parseInt(editFormData.price),
+            condition: editFormData.condition,
+            type: editFormData.type,
+            email: editFormData.email,
+            description: editFormData.description
+          }
+        : listing
+    )
+    
+    setListings(updatedListings)
+    localStorage.setItem('userListings', JSON.stringify(updatedListings))
+    setEditingListing(null)
+  }
+
+  const handleCancelEdit = () => {
+    setEditingListing(null)
+    setEditFormData({
+      title: '',
+      brand: '',
+      price: '',
+      condition: 'Like New',
+      type: 'squash',
+      email: '',
+      description: ''
+    })
   }
 
   return (
@@ -301,6 +370,7 @@ export default function MyListingsPage() {
                     
                     <div className="flex gap-2">
                       <motion.button
+                        onClick={() => handleEditListing(listing)}
                         whileHover={{ scale: 1.05 }}
                         whileTap={{ scale: 0.95 }}
                         className="flex-1 bg-white/10 hover:bg-white/20 text-white py-2 px-3 rounded-lg text-sm font-medium transition-colors flex items-center justify-center gap-1"
@@ -344,6 +414,149 @@ export default function MyListingsPage() {
           )}
         </div>
       </div>
+
+      {/* Edit Modal */}
+      {editingListing && (
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4"
+        >
+          <motion.div
+            initial={{ scale: 0.8, opacity: 0, y: 50 }}
+            animate={{ scale: 1, opacity: 1, y: 0 }}
+            exit={{ scale: 0.8, opacity: 0, y: 50 }}
+            transition={{ 
+              duration: 0.4, 
+              ease: "easeOut",
+              type: "spring",
+              stiffness: 300,
+              damping: 30
+            }}
+            className="bg-gray-900 rounded-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto shadow-2xl border border-white/10"
+          >
+            {/* Modal Header */}
+            <div className="p-6 border-b border-white/10">
+              <div className="flex items-center justify-between">
+                <h2 className="text-xl font-semibold text-white">Edit Listing</h2>
+                <button
+                  onClick={handleCancelEdit}
+                  className="w-8 h-8 bg-white/10 hover:bg-white/20 rounded-full flex items-center justify-center transition-colors"
+                >
+                  ✕
+                </button>
+              </div>
+            </div>
+
+            {/* Modal Content */}
+            <div className="p-6 space-y-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-sm font-medium text-white mb-2">Racket Title</label>
+                  <input
+                    type="text"
+                    value={editFormData.title}
+                    onChange={(e) => setEditFormData({ ...editFormData, title: e.target.value })}
+                    className="w-full bg-white/5 border border-white/10 rounded-lg py-2 px-3 text-white focus:outline-none focus:border-white/30 transition-colors"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-white mb-2">Brand</label>
+                  <select
+                    value={editFormData.brand}
+                    onChange={(e) => setEditFormData({ ...editFormData, brand: e.target.value })}
+                    className="w-full bg-white/5 border border-white/10 rounded-lg py-2 px-3 text-white focus:outline-none focus:border-white/30 transition-colors"
+                  >
+                    <option value="">Select Brand</option>
+                    <option value="Technifibre">Technifibre</option>
+                    <option value="Prince">Prince</option>
+                    <option value="Dunlop">Dunlop</option>
+                    <option value="Head">Head</option>
+                    <option value="Wilson">Wilson</option>
+                    <option value="Babolat">Babolat</option>
+                    <option value="Other">Other</option>
+                  </select>
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-white mb-2">Price (USD)</label>
+                  <input
+                    type="number"
+                    value={editFormData.price}
+                    onChange={(e) => setEditFormData({ ...editFormData, price: e.target.value })}
+                    className="w-full bg-white/5 border border-white/10 rounded-lg py-2 px-3 text-white focus:outline-none focus:border-white/30 transition-colors"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-white mb-2">Condition</label>
+                  <select
+                    value={editFormData.condition}
+                    onChange={(e) => setEditFormData({ ...editFormData, condition: e.target.value as 'New' | 'Like New' | 'Good' | 'Fair' })}
+                    className="w-full bg-white/5 border border-white/10 rounded-lg py-2 px-3 text-white focus:outline-none focus:border-white/30 transition-colors"
+                  >
+                    <option value="New">New</option>
+                    <option value="Like New">Like New</option>
+                    <option value="Good">Good</option>
+                    <option value="Fair">Fair</option>
+                  </select>
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-white mb-2">Racket Type</label>
+                  <select
+                    value={editFormData.type}
+                    onChange={(e) => setEditFormData({ ...editFormData, type: e.target.value as 'squash' | 'tennis' | 'padel' })}
+                    className="w-full bg-white/5 border border-white/10 rounded-lg py-2 px-3 text-white focus:outline-none focus:border-white/30 transition-colors"
+                  >
+                    <option value="squash">Squash</option>
+                    <option value="tennis">Tennis</option>
+                    <option value="padel">Padel</option>
+                  </select>
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-white mb-2">Email</label>
+                  <input
+                    type="email"
+                    value={editFormData.email}
+                    onChange={(e) => setEditFormData({ ...editFormData, email: e.target.value })}
+                    className="w-full bg-white/5 border border-white/10 rounded-lg py-2 px-3 text-white focus:outline-none focus:border-white/30 transition-colors"
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-white mb-2">Description</label>
+                <textarea
+                  value={editFormData.description}
+                  onChange={(e) => setEditFormData({ ...editFormData, description: e.target.value })}
+                  rows={4}
+                  className="w-full bg-white/5 border border-white/10 rounded-lg py-2 px-3 text-white focus:outline-none focus:border-white/30 transition-colors resize-none"
+                />
+              </div>
+
+              {/* Action Buttons */}
+              <div className="flex gap-3 pt-4">
+                <button
+                  onClick={handleCancelEdit}
+                  className="flex-1 bg-white/10 text-white py-3 rounded-xl font-medium hover:bg-white/20 transition-colors"
+                >
+                  Cancel
+                </button>
+                <button
+                  onClick={handleSaveEdit}
+                  className="flex-1 bg-white text-gray-900 py-3 rounded-xl font-medium hover:bg-gray-100 transition-colors"
+                >
+                  Save Changes
+                </button>
+              </div>
+            </div>
+          </motion.div>
+        </motion.div>
+      )}
     </div>
   )
 }

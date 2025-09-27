@@ -201,7 +201,8 @@ export default function SellPage() {
     type: 'squash',
     email: '',
     description: '',
-    images: [] as File[]
+    images: [] as File[],
+    imageDataUrls: [] as string[]
   })
   const [isSubmitted, setIsSubmitted] = useState(false)
   const [isSubmitting, setIsSubmitting] = useState(false)
@@ -215,6 +216,13 @@ export default function SellPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
+    
+    // Validate minimum image requirement
+    if (formData.imageDataUrls.length < 3) {
+      alert('Please upload at least 3 images of your racket before listing.')
+      return
+    }
+    
     setIsSubmitting(true)
     
     // Simulate API call delay
@@ -230,7 +238,7 @@ export default function SellPage() {
       condition: formData.condition as 'New' | 'Like New' | 'Good' | 'Fair',
       type: formData.type as 'squash' | 'tennis' | 'padel',
       email: formData.email,
-      images: formData.images.length > 0 ? ['/Untitled design (2).png'] : ['/Untitled design (2).png'], // Placeholder image for now
+      images: formData.imageDataUrls, // Use base64 data URLs for persistence
       description: formData.description,
       seller: user?.user_metadata?.full_name || user?.email?.split('@')[0] || 'Anonymous',
       rating: 4.8,
@@ -264,7 +272,25 @@ export default function SellPage() {
 
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
-      setFormData({ ...formData, images: Array.from(e.target.files) })
+      const files = Array.from(e.target.files)
+      
+      // Convert files to base64 data URLs
+      const processFiles = async () => {
+        const base64Images: string[] = []
+        
+        for (const file of files) {
+          const base64 = await new Promise<string>((resolve) => {
+            const reader = new FileReader()
+            reader.onload = () => resolve(reader.result as string)
+            reader.readAsDataURL(file)
+          })
+          base64Images.push(base64)
+        }
+        
+        setFormData({ ...formData, images: files, imageDataUrls: base64Images })
+      }
+      
+      processFiles()
     }
   }
 
@@ -470,7 +496,10 @@ export default function SellPage() {
               
               <div className="border-2 border-dashed border-white/20 rounded-xl p-8 text-center hover:border-white/30 transition-colors">
                 <Upload className="mx-auto mb-4 text-gray-400" size={48} />
-                <p className="text-gray-400 mb-4 text-lg">Upload photos of your racket</p>
+                <p className="text-gray-400 mb-2 text-lg">Upload photos of your racket</p>
+                <p className="text-yellow-400 mb-4 text-sm font-medium">
+                  ⚠️ Minimum 3 images required
+                </p>
                 <input
                   type="file"
                   multiple
@@ -485,10 +514,41 @@ export default function SellPage() {
                 >
                   Choose Files
                 </label>
-                {formData.images.length > 0 && (
-                  <p className="text-sm text-gray-400 mt-3">
-                    {formData.images.length} file(s) selected
-                  </p>
+                {formData.imageDataUrls.length > 0 && (
+                  <div className="mt-3">
+                    <p className={`text-sm font-medium ${
+                      formData.imageDataUrls.length >= 3 ? 'text-green-400' : 'text-red-400'
+                    }`}>
+                      {formData.imageDataUrls.length} of 3 images uploaded
+                      {formData.imageDataUrls.length >= 3 ? ' ✅' : ' ❌'}
+                    </p>
+                    {formData.imageDataUrls.length < 3 && (
+                      <p className="text-xs text-gray-400 mt-1">
+                        Please upload {3 - formData.imageDataUrls.length} more image(s)
+                      </p>
+                    )}
+                  </div>
+                )}
+                
+                {/* Image Preview */}
+                {formData.imageDataUrls.length > 0 && (
+                  <div className="mt-6">
+                    <h3 className="text-lg font-medium text-white mb-3">Image Preview:</h3>
+                    <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+                      {formData.imageDataUrls.map((imageUrl, index) => (
+                        <div key={index} className="relative">
+                          <img
+                            src={imageUrl}
+                            alt={`Preview ${index + 1}`}
+                            className="w-full h-24 object-cover rounded-lg border border-white/20"
+                          />
+                          <div className="absolute top-1 right-1 bg-black/70 text-white text-xs px-1 rounded">
+                            {index + 1}
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
                 )}
               </div>
             </div>
@@ -497,16 +557,22 @@ export default function SellPage() {
             <div className="flex justify-center">
               <motion.button
                 type="submit"
-                disabled={isSubmitting}
-                whileHover={{ scale: isSubmitting ? 1 : 1.02 }}
-                whileTap={{ scale: isSubmitting ? 1 : 0.98 }}
-                className="bg-white text-black py-4 px-8 sm:px-12 rounded-xl font-bold text-lg sm:text-xl hover:bg-gray-100 transition-colors shadow-lg min-w-[180px] sm:min-w-[200px] disabled:opacity-70 disabled:cursor-not-allowed"
+                disabled={isSubmitting || formData.imageDataUrls.length < 3}
+                whileHover={{ scale: (isSubmitting || formData.imageDataUrls.length < 3) ? 1 : 1.02 }}
+                whileTap={{ scale: (isSubmitting || formData.imageDataUrls.length < 3) ? 1 : 0.98 }}
+                className={`py-4 px-8 sm:px-12 rounded-xl font-bold text-lg sm:text-xl transition-colors shadow-lg min-w-[180px] sm:min-w-[200px] disabled:opacity-70 disabled:cursor-not-allowed ${
+                  formData.imageDataUrls.length < 3 
+                    ? 'bg-gray-500 text-gray-300 cursor-not-allowed' 
+                    : 'bg-white text-black hover:bg-gray-100'
+                }`}
               >
                 {isSubmitting ? (
                   <div className="flex items-center gap-2">
                     <div className="w-5 h-5 border-2 border-black/30 border-t-black rounded-full animate-spin"></div>
                     Listing...
                   </div>
+                ) : formData.imageDataUrls.length < 3 ? (
+                  `Upload ${3 - formData.imageDataUrls.length} More Image${3 - formData.imageDataUrls.length === 1 ? '' : 's'}`
                 ) : (
                   'List My Racket'
                 )}

@@ -20,8 +20,8 @@ const Card = () => {
         {/* Squash Racket Image */}
         <img 
           className="racket-img" 
-          src="/Untitled design (2).png" 
-          alt="Carboflex Pro Squash Racket"
+          src="/new.png" 
+          alt="Squash Racket"
         />
         
         <div className="racket-textBox">
@@ -435,13 +435,6 @@ const DemoOne = () => {
             </motion.div>
           </motion.div>
 
-          {/* Squash Racket Card Section */}
-          <motion.div 
-            className="flex justify-center mt-8 sm:mt-12 md:mt-16"
-            variants={cardVariants}
-          >
-            <Card />
-          </motion.div>
         </motion.div>
       </section>
 
@@ -517,12 +510,12 @@ const DemoOne = () => {
               handle="alihamdard"
               status="Founder & CEO"
               contactText="Contact Ali"
-              avatarUrl="/Untitled design (3).png"
-              miniAvatarUrl="/Untitled design (3).png"
+              avatarUrl="/new.png"
+              miniAvatarUrl="/new.png"
               showUserInfo={true}
               enableTilt={true}
               enableMobileTilt={false}
-              onContactClick={() => console.log('Contact clicked')}
+              onContactClick={() => window.open('mailto:ali.hamdard@icloud.com?subject=Contact from Squash Marketplace', '_blank')}
             />
           </motion.div>
         </div>

@@ -279,8 +279,16 @@ export default function FavoritesPage() {
                     className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl overflow-hidden hover:bg-white/10 transition-all duration-300 group"
                   >
                     {/* Image */}
-                    <div className="aspect-square bg-gradient-to-br from-slate-800 to-slate-900 flex items-center justify-center relative">
-                      <div className="text-6xl">🎾</div>
+                    <div className="aspect-square bg-gradient-to-br from-slate-800 to-slate-900 flex items-center justify-center relative overflow-hidden">
+                      {racket.images && racket.images.length > 0 ? (
+                        <img 
+                          src={racket.images[0]} 
+                          alt={racket.title}
+                          className="w-full h-full object-cover"
+                        />
+                      ) : (
+                        <div className="text-6xl">🎾</div>
+                      )}
                       <span className="absolute top-3 left-3 bg-black/50 backdrop-blur-sm px-2 py-1 rounded-lg text-xs font-medium">
                         {racket.condition}
                       </span>
@@ -306,17 +314,10 @@ export default function FavoritesPage() {
                           <DollarSign size={16} className="text-green-400" />
                           <span className="text-green-400 font-bold">${racket.price}</span>
                         </div>
-                        <div className="flex items-center gap-1">
-                          <Star className="text-yellow-400 fill-current" size={12} />
-                          <span className="text-xs text-gray-400">{racket.rating}</span>
-                        </div>
                       </div>
 
-                      <div className="grid grid-cols-2 gap-2 text-xs text-gray-400 mb-3">
+                      <div className="text-xs text-gray-400 mb-3">
                         <div>Weight: {racket.specifications.weight}</div>
-                        <div>Head: {racket.specifications.headSize}</div>
-                        <div>String: {racket.specifications.stringPattern}</div>
-                        <div>Balance: {racket.specifications.balance}</div>
                       </div>
 
                       <div className="text-xs text-gray-500">

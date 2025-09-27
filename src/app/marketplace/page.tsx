@@ -525,24 +525,17 @@ export default function MarketplacePage() {
                   <p className="text-xs sm:text-sm text-gray-400 line-clamp-2 mb-3">{racket.description}</p>
 
                   {/* Specs */}
-                  <div className="grid grid-cols-2 gap-1 sm:gap-2 text-xs text-gray-400 mb-3">
+                  <div className="text-xs text-gray-400 mb-3">
                     <div>Weight: {racket.specifications.weight}</div>
-                    <div>Head: {racket.specifications.headSize}</div>
-                    <div>String: {racket.specifications.stringPattern}</div>
-                    <div>Balance: {racket.specifications.balance}</div>
                   </div>
 
                   {/* Seller Info */}
                   <div className="flex items-center justify-between pt-2 sm:pt-3 border-t border-white/10">
                     <div className="flex items-center gap-2">
                       <div className="w-5 h-5 sm:w-6 sm:h-6 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center text-white text-xs font-bold">
-                        {racket.seller[0]}
+                        {racket.email[0]}
                       </div>
-                      <span className="text-xs sm:text-sm text-gray-400 truncate">{racket.seller}</span>
-                    </div>
-                    <div className="flex items-center gap-1">
-                      <Star className="text-yellow-400 fill-current" size={10} />
-                      <span className="text-xs text-gray-400">{racket.rating}</span>
+                      <span className="text-xs sm:text-sm text-gray-400 truncate">{racket.email}</span>
                     </div>
                   </div>
                 </div>
@@ -658,42 +651,22 @@ export default function MarketplacePage() {
                   <p className="text-sm sm:text-base text-gray-300">{selectedRacket.description}</p>
                 </div>
 
-                {/* Specifications */}
+                {/* Condition */}
                 <div>
-                  <h3 className="text-base sm:text-lg font-semibold text-white mb-3">Specifications</h3>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-4 text-xs sm:text-sm">
-                    <div>
-                      <span className="text-gray-400">Weight:</span>
-                      <span className="text-white ml-2">{selectedRacket.specifications.weight}</span>
-                    </div>
-                    <div>
-                      <span className="text-gray-400">Head Size:</span>
-                      <span className="text-white ml-2">{selectedRacket.specifications.headSize}</span>
-                    </div>
-                    <div>
-                      <span className="text-gray-400">String Pattern:</span>
-                      <span className="text-white ml-2">{selectedRacket.specifications.stringPattern}</span>
-                    </div>
-                    <div>
-                      <span className="text-gray-400">Balance:</span>
-                      <span className="text-white ml-2">{selectedRacket.specifications.balance}</span>
-                    </div>
-                  </div>
+                  <h3 className="text-base sm:text-lg font-semibold text-white mb-2">Condition</h3>
+                  <p className="text-sm sm:text-base text-gray-300">{selectedRacket.condition}</p>
                 </div>
+
 
                 {/* Seller Info */}
                 <div>
                   <h3 className="text-base sm:text-lg font-semibold text-white mb-3">Seller</h3>
                   <div className="flex items-center gap-3 p-3 sm:p-4 bg-white/5 rounded-xl">
                     <div className="w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center text-white font-bold text-sm sm:text-base">
-                      {selectedRacket.seller[0]}
+                      {selectedRacket.email[0]}
                     </div>
                     <div>
-                      <div className="text-white font-medium text-sm sm:text-base">{selectedRacket.seller}</div>
-                      <div className="flex items-center gap-1">
-                        <Star className="text-yellow-400 fill-current" size={12} />
-                        <span className="text-xs sm:text-sm text-gray-400">{selectedRacket.rating} rating</span>
-                      </div>
+                      <div className="text-white font-medium text-sm sm:text-base">{selectedRacket.email}</div>
                     </div>
                   </div>
                 </div>
@@ -785,12 +758,16 @@ export default function MarketplacePage() {
               {/* Product Summary */}
               <div className="bg-gradient-to-br from-white/8 to-white/4 rounded-xl p-6 border border-white/10">
                 <div className="flex items-center gap-4 mb-4">
-                  <div className="w-16 h-16 bg-gradient-to-br from-gray-700 to-gray-800 rounded-lg overflow-hidden">
-                    <img 
-                      src={selectedPurchaseRacket.image} 
-                      alt={selectedPurchaseRacket.title}
-                      className="w-full h-full object-cover"
-                    />
+                  <div className="w-16 h-16 bg-gradient-to-br from-gray-700 to-gray-800 rounded-lg overflow-hidden flex items-center justify-center">
+                    {selectedPurchaseRacket.images && selectedPurchaseRacket.images.length > 0 ? (
+                      <img 
+                        src={selectedPurchaseRacket.images[0]} 
+                        alt={selectedPurchaseRacket.title}
+                        className="w-full h-full object-cover"
+                      />
+                    ) : (
+                      <div className="text-white text-2xl">🎾</div>
+                    )}
                   </div>
                   <div className="flex-1">
                     <h3 className="font-semibold text-white text-lg mb-1">{selectedPurchaseRacket.title}</h3>
@@ -948,12 +925,16 @@ export default function MarketplacePage() {
                   {/* Product Summary */}
                   <div className="bg-gradient-to-br from-white/8 to-white/4 rounded-xl p-6 border border-white/10">
                     <div className="flex items-center gap-4 mb-4">
-                      <div className="w-16 h-16 bg-gradient-to-br from-gray-700 to-gray-800 rounded-lg overflow-hidden">
-                        <img 
-                          src={selectedPurchaseRacket.image} 
-                          alt={selectedPurchaseRacket.title}
-                          className="w-full h-full object-cover"
-                        />
+                      <div className="w-16 h-16 bg-gradient-to-br from-gray-700 to-gray-800 rounded-lg overflow-hidden flex items-center justify-center">
+                        {selectedPurchaseRacket.images && selectedPurchaseRacket.images.length > 0 ? (
+                          <img 
+                            src={selectedPurchaseRacket.images[0]} 
+                            alt={selectedPurchaseRacket.title}
+                            className="w-full h-full object-cover"
+                          />
+                        ) : (
+                          <div className="text-white text-2xl">🎾</div>
+                        )}
                       </div>
                       <div className="flex-1">
                         <h3 className="font-semibold text-white text-lg mb-1">{selectedPurchaseRacket.title}</h3>
@@ -1001,7 +982,15 @@ export default function MarketplacePage() {
                       <div>
                         <p className="text-white font-medium mb-2">Send payment to:</p>
                         <div className="bg-black/30 rounded-lg p-3">
-                          <p className="text-white font-mono text-lg">osalerno@example.com</p>
+                          <p className="text-white font-mono text-lg">9173062100</p>
+                        </div>
+                      </div>
+                      
+                      <div>
+                        <p className="text-white font-medium mb-2">Contact Information:</p>
+                        <div className="bg-black/30 rounded-lg p-3 space-y-2">
+                          <p className="text-white font-mono text-sm">Phone: 646849987</p>
+                          <p className="text-white font-mono text-sm">Email: ali.hamdard@icloud.com</p>
                         </div>
                       </div>
                       
