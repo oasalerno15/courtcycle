@@ -46,19 +46,8 @@ export default function Header() {
       }`}
     >
         <div className="max-w-7xl mx-auto flex items-start justify-between">
-          {/* Logo - Responsive sizing */}
+          {/* Logo section removed */}
           <div className="flex-1 relative">
-            <img 
-              src="/Untitled design (1).png" 
-              alt="Untitled Design" 
-              className="h-32 sm:h-48 md:h-64 w-auto absolute -top-4 sm:-top-6 md:-top-8 -left-24 sm:-left-48 md:-left-96 z-[9999]"
-              style={{ 
-                position: 'absolute',
-                zIndex: 9999,
-                pointerEvents: 'auto',
-                display: 'block'
-              }}
-            />
         </div>
 
           {/* Navigation Links - Mobile responsive */}
