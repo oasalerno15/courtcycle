@@ -304,11 +304,25 @@ export default function SellPage() {
           base64Images.push(base64)
         }
         
-        setFormData({ ...formData, images: files, imageDataUrls: base64Images })
+        // APPEND new images to existing ones instead of replacing
+        setFormData({ 
+          ...formData, 
+          images: [...formData.images, ...files], 
+          imageDataUrls: [...formData.imageDataUrls, ...base64Images] 
+        })
       }
       
       processFiles()
     }
+    
+    // Reset the input so the same files can be selected again if needed
+    e.target.value = ''
+  }
+
+  const handleRemoveImage = (index: number) => {
+    const newImages = formData.images.filter((_, i) => i !== index)
+    const newImageDataUrls = formData.imageDataUrls.filter((_, i) => i !== index)
+    setFormData({ ...formData, images: newImages, imageDataUrls: newImageDataUrls })
   }
 
   // Skip loading and authentication checks for now
@@ -514,8 +528,11 @@ export default function SellPage() {
               <div className="border-2 border-dashed border-white/20 rounded-xl p-8 text-center hover:border-white/30 transition-colors">
                 <Upload className="mx-auto mb-4 text-gray-400" size={48} />
                 <p className="text-gray-400 mb-2 text-lg">Upload photos of your gear</p>
-                <p className="text-yellow-400 mb-4 text-sm font-medium">
+                <p className="text-yellow-400 mb-2 text-sm font-medium">
                   ⚠️ Minimum 3 images required
+                </p>
+                <p className="text-gray-500 mb-4 text-xs">
+                  You can select multiple images at once or add them one by one
                 </p>
                 <input
                   type="file"
@@ -529,7 +546,7 @@ export default function SellPage() {
                   htmlFor="image-upload"
                   className="bg-white text-black px-8 py-3 rounded-xl font-semibold cursor-pointer hover:bg-gray-100 transition-colors inline-block text-lg"
                 >
-                  Choose Files
+                  {formData.imageDataUrls.length > 0 ? 'Add More Images' : 'Choose Files'}
                 </label>
                 {formData.imageDataUrls.length > 0 && (
                   <div className="mt-3">
@@ -553,7 +570,7 @@ export default function SellPage() {
                     <h3 className="text-lg font-medium text-white mb-3">Image Preview:</h3>
                     <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
                       {formData.imageDataUrls.map((imageUrl, index) => (
-                        <div key={index} className="relative bg-white/5 rounded-lg border border-white/20 p-2">
+                        <div key={index} className="relative bg-white/5 rounded-lg border border-white/20 p-2 group">
                           <img
                             src={imageUrl}
                             alt={`Preview ${index + 1}`}
@@ -562,6 +579,14 @@ export default function SellPage() {
                           <div className="absolute top-3 right-3 bg-black/70 text-white text-xs px-2 py-1 rounded">
                             {index + 1}
                           </div>
+                          <button
+                            type="button"
+                            onClick={() => handleRemoveImage(index)}
+                            className="absolute top-3 left-3 bg-red-500 hover:bg-red-600 text-white rounded-full w-6 h-6 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"
+                            title="Remove image"
+                          >
+                            ✕
+                          </button>
                         </div>
                       ))}
                     </div>
