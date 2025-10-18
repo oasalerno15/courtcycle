@@ -4,6 +4,7 @@ import { useAuth } from '@/contexts/AuthContext'
 import { useEffect, useState } from 'react'
 import { motion } from 'framer-motion'
 import { Search, Filter, Plus, Heart, Star, DollarSign, Home, Settings, Truck, MapPin, CreditCard, Check, CheckCircle, AlertCircle, RefreshCw, Clock } from 'lucide-react'
+import { supabase } from '@/lib/supabase'
 
 interface RacketListing {
   id: string
@@ -14,16 +15,21 @@ interface RacketListing {
   images: string[]
   description: string
   seller: string
+  seller_name?: string
+  seller_email: string
   rating: number
   location: string
   type: 'squash' | 'tennis' | 'padel'
-  email: string
+  email?: string
   specifications: {
     weight: string
     headSize: string
     stringPattern: string
     balance: string
   }
+  created_at?: string
+  is_active?: boolean
+  is_sold?: boolean
 }
 
 // No more fake data - only real user listings
@@ -261,31 +267,82 @@ export default function MarketplacePage() {
     window.open(mailtoLink, '_blank')
   }
 
-  // Load real listings and favorites from localStorage on component mount
+  // Load real listings and favorites from Supabase on component mount
   useEffect(() => {
-    const loadData = () => {
-      // Load real user listings
-      const storedListings = JSON.parse(localStorage.getItem('userListings') || '[]')
-      setRackets(storedListings)
-      
-      // Load favorites
-      const storedFavorites = JSON.parse(localStorage.getItem('favorites') || '[]')
-      const favoriteIds = storedFavorites.map((item: any) => item.id)
-      setFavorites(favoriteIds)
+    const loadData = async () => {
+      try {
+        // Load real user listings from Supabase
+        const { data: listingsData, error: listingsError } = await supabase
+          .from('listings')
+          .select('*')
+          .eq('is_active', true)
+          .order('created_at', { ascending: false })
+
+        if (listingsError) {
+          console.error('Error loading listings:', listingsError)
+        } else {
+          // Transform data to match expected format
+          const transformedListings = listingsData.map((listing: any) => ({
+            id: listing.id,
+            title: listing.title,
+            brand: listing.brand,
+            price: listing.price,
+            condition: listing.condition,
+            images: listing.images || [],
+            description: listing.description,
+            seller: listing.seller_name || listing.seller_email.split('@')[0],
+            seller_name: listing.seller_name,
+            seller_email: listing.seller_email,
+            email: listing.seller_email,
+            rating: listing.rating || 4.8,
+            location: listing.location || 'Location not specified',
+            type: listing.type,
+            specifications: listing.specifications || {
+              weight: 'Not specified',
+              headSize: 'Not specified',
+              stringPattern: 'Not specified',
+              balance: 'Not specified'
+            },
+            created_at: listing.created_at,
+            is_active: listing.is_active,
+            is_sold: listing.is_sold
+          }))
+          setRackets(transformedListings)
+        }
+
+        // Load favorites from localStorage for now (we can migrate to Supabase later)
+        const storedFavorites = JSON.parse(localStorage.getItem('favorites') || '[]')
+        const favoriteIds = storedFavorites.map((item: any) => item.id)
+        setFavorites(favoriteIds)
+      } catch (error) {
+        console.error('Unexpected error loading data:', error)
+      }
     }
     
     loadData()
     
-    // Listen for storage changes to update when new listings are added
-    const handleStorageChange = (e: StorageEvent) => {
-      if (e.key === 'userListings') {
-        const updatedListings = JSON.parse(e.newValue || '[]')
-        setRackets(updatedListings)
-      }
+    // Set up real-time subscription to listen for new listings
+    const channel = supabase
+      .channel('listings-changes')
+      .on(
+        'postgres_changes',
+        {
+          event: '*',
+          schema: 'public',
+          table: 'listings'
+        },
+        (payload) => {
+          console.log('Listing change detected:', payload)
+          // Reload data when changes occur
+          loadData()
+        }
+      )
+      .subscribe()
+
+    // Cleanup subscription on unmount
+    return () => {
+      supabase.removeChannel(channel)
     }
-    
-    window.addEventListener('storage', handleStorageChange)
-    return () => window.removeEventListener('storage', handleStorageChange)
   }, [])
 
   const toggleFavorite = (racket: RacketListing) => {

@@ -4,6 +4,7 @@ import { useAuth } from '@/contexts/AuthContext'
 import { useEffect, useState } from 'react'
 import { motion } from 'framer-motion'
 import { ArrowLeft, Upload, DollarSign, Info, Home, CheckCircle } from 'lucide-react'
+import { supabase } from '@/lib/supabase'
 
 // Marketplace Header Component
 const MarketplaceHeader = () => {
@@ -225,37 +226,50 @@ export default function SellPage() {
     
     setIsSubmitting(true)
     
-    // Simulate API call delay
-    await new Promise(resolve => setTimeout(resolve, 1500))
-    
-    // Store the listing in localStorage for now (until we have a proper backend)
-    const existingListings = JSON.parse(localStorage.getItem('userListings') || '[]')
-    const newListing = {
-      id: Date.now().toString(),
-      title: formData.title,
-      brand: formData.brand,
-      price: parseInt(formData.price),
-      condition: formData.condition as 'New' | 'Like New' | 'Good' | 'Fair',
-      type: formData.type as 'squash' | 'tennis' | 'padel',
-      email: formData.email,
-      images: formData.imageDataUrls, // Use base64 data URLs for persistence
-      description: formData.description,
-      seller: user?.user_metadata?.full_name || user?.email?.split('@')[0] || 'Anonymous',
-      rating: 4.8,
-      location: 'Location not specified',
-      specifications: {
-        weight: 'Not specified',
-        headSize: 'Not specified', 
-        stringPattern: 'Not specified',
-        balance: 'Not specified'
-      },
-      dateAdded: new Date().toISOString()
+    try {
+      // Save the listing to Supabase
+      const { data, error } = await supabase
+        .from('listings')
+        .insert([
+          {
+            title: formData.title,
+            brand: formData.brand,
+            price: parseFloat(formData.price),
+            condition: formData.condition,
+            type: formData.type,
+            description: formData.description,
+            seller_email: formData.email,
+            seller_name: user?.user_metadata?.full_name || user?.email?.split('@')[0] || 'Anonymous',
+            images: formData.imageDataUrls,
+            specifications: {
+              weight: 'Not specified',
+              headSize: 'Not specified',
+              stringPattern: 'Not specified',
+              balance: 'Not specified'
+            },
+            location: 'Location not specified',
+            rating: 4.8,
+            is_active: true,
+            is_sold: false
+          }
+        ])
+        .select()
+
+      if (error) {
+        console.error('Error saving listing:', error)
+        alert('Failed to create listing. Please try again.')
+        setIsSubmitting(false)
+        return
+      }
+
+      console.log('Listing created successfully:', data)
+      setIsSubmitting(false)
+      setIsSubmitted(true)
+    } catch (error) {
+      console.error('Unexpected error:', error)
+      alert('An unexpected error occurred. Please try again.')
+      setIsSubmitting(false)
     }
-    existingListings.push(newListing)
-    localStorage.setItem('userListings', JSON.stringify(existingListings))
-    
-    setIsSubmitting(false)
-    setIsSubmitted(true)
   }
 
   const handleListAnother = () => {

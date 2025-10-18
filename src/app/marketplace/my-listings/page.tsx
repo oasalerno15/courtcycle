@@ -4,6 +4,7 @@ import { useAuth } from '@/contexts/AuthContext'
 import { useEffect, useState } from 'react'
 import { motion } from 'framer-motion'
 import { Home, Plus, Trash2, Edit, DollarSign } from 'lucide-react'
+import { supabase } from '@/lib/supabase'
 
 interface UserListing {
   id: string
@@ -228,20 +229,75 @@ export default function MyListingsPage() {
   })
 
   useEffect(() => {
-    // Load user listings from localStorage
-    const storedListings = JSON.parse(localStorage.getItem('userListings') || '[]')
-    setListings(storedListings)
+    // Load user listings from Supabase
+    const loadListings = async () => {
+      try {
+        const { data, error } = await supabase
+          .from('listings')
+          .select('*')
+          .order('created_at', { ascending: false })
+
+        if (error) {
+          console.error('Error loading listings:', error)
+        } else {
+          // Transform data to match expected format
+          const transformedListings = data.map((listing: any) => ({
+            id: listing.id,
+            title: listing.title,
+            brand: listing.brand,
+            price: listing.price,
+            condition: listing.condition,
+            type: listing.type,
+            email: listing.seller_email,
+            images: listing.images || [],
+            description: listing.description,
+            seller: listing.seller_name || listing.seller_email.split('@')[0],
+            rating: listing.rating || 4.8,
+            location: listing.location || 'Location not specified',
+            specifications: listing.specifications || {
+              weight: 'Not specified',
+              headSize: 'Not specified',
+              stringPattern: 'Not specified',
+              balance: 'Not specified'
+            },
+            dateAdded: listing.created_at
+          }))
+          setListings(transformedListings)
+        }
+      } catch (error) {
+        console.error('Unexpected error loading listings:', error)
+      }
+    }
+
+    loadListings()
   }, [])
 
-  const handleDeleteListing = (id: string) => {
-    const updatedListings = listings.filter(listing => listing.id !== id)
-    setListings(updatedListings)
-    localStorage.setItem('userListings', JSON.stringify(updatedListings))
-    
-    // Also remove from favorites if it exists there
-    const currentFavorites = JSON.parse(localStorage.getItem('favorites') || '[]')
-    const updatedFavorites = currentFavorites.filter((item: any) => item.id !== id)
-    localStorage.setItem('favorites', JSON.stringify(updatedFavorites))
+  const handleDeleteListing = async (id: string) => {
+    try {
+      // Delete from Supabase
+      const { error } = await supabase
+        .from('listings')
+        .delete()
+        .eq('id', id)
+
+      if (error) {
+        console.error('Error deleting listing:', error)
+        alert('Failed to delete listing. Please try again.')
+        return
+      }
+
+      // Update local state
+      const updatedListings = listings.filter(listing => listing.id !== id)
+      setListings(updatedListings)
+      
+      // Also remove from favorites localStorage if it exists there
+      const currentFavorites = JSON.parse(localStorage.getItem('favorites') || '[]')
+      const updatedFavorites = currentFavorites.filter((item: any) => item.id !== id)
+      localStorage.setItem('favorites', JSON.stringify(updatedFavorites))
+    } catch (error) {
+      console.error('Unexpected error deleting listing:', error)
+      alert('An unexpected error occurred. Please try again.')
+    }
   }
 
   const handleEditListing = (listing: UserListing) => {
@@ -257,27 +313,52 @@ export default function MyListingsPage() {
     })
   }
 
-  const handleSaveEdit = () => {
+  const handleSaveEdit = async () => {
     if (!editingListing) return
 
-    const updatedListings = listings.map(listing => 
-      listing.id === editingListing.id 
-        ? {
-            ...listing,
-            title: editFormData.title,
-            brand: editFormData.brand,
-            price: parseInt(editFormData.price),
-            condition: editFormData.condition,
-            type: editFormData.type,
-            email: editFormData.email,
-            description: editFormData.description
-          }
-        : listing
-    )
-    
-    setListings(updatedListings)
-    localStorage.setItem('userListings', JSON.stringify(updatedListings))
-    setEditingListing(null)
+    try {
+      // Update in Supabase
+      const { error } = await supabase
+        .from('listings')
+        .update({
+          title: editFormData.title,
+          brand: editFormData.brand,
+          price: parseFloat(editFormData.price),
+          condition: editFormData.condition,
+          type: editFormData.type,
+          seller_email: editFormData.email,
+          description: editFormData.description
+        })
+        .eq('id', editingListing.id)
+
+      if (error) {
+        console.error('Error updating listing:', error)
+        alert('Failed to update listing. Please try again.')
+        return
+      }
+
+      // Update local state
+      const updatedListings = listings.map(listing => 
+        listing.id === editingListing.id 
+          ? {
+              ...listing,
+              title: editFormData.title,
+              brand: editFormData.brand,
+              price: parseFloat(editFormData.price),
+              condition: editFormData.condition,
+              type: editFormData.type,
+              email: editFormData.email,
+              description: editFormData.description
+            }
+          : listing
+      )
+      
+      setListings(updatedListings)
+      setEditingListing(null)
+    } catch (error) {
+      console.error('Unexpected error updating listing:', error)
+      alert('An unexpected error occurred. Please try again.')
+    }
   }
 
   const handleCancelEdit = () => {
