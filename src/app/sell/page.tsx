@@ -219,7 +219,7 @@ export default function SellPage() {
     
     // Validate minimum image requirement
     if (formData.imageDataUrls.length < 3) {
-      alert('Please upload at least 3 images of your racket before listing.')
+      alert('Please upload at least 3 images of your gear before listing.')
       return
     }
     
@@ -265,8 +265,11 @@ export default function SellPage() {
       brand: '',
       price: '',
       condition: 'Like New',
+      type: 'squash',
+      email: '',
       description: '',
-      images: []
+      images: [],
+      imageDataUrls: []
     })
   }
 
@@ -328,8 +331,8 @@ export default function SellPage() {
               <ArrowLeft size={24} />
               Back to Marketplace
             </a>
-            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-2">Sell Your Racket</h1>
-            <p className="text-gray-400 text-lg sm:text-xl">List your squash racket and connect with buyers</p>
+            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-2">Sell Your Gear</h1>
+            <p className="text-gray-400 text-lg sm:text-xl">List your squash gear and connect with buyers</p>
           </motion.div>
 
           {/* Form or Success State */}
@@ -348,7 +351,7 @@ export default function SellPage() {
               >
                 <CheckCircle size={80} className="text-green-500 mx-auto mb-4" />
                 <h2 className="text-3xl font-bold text-white mb-2">Success!</h2>
-                <p className="text-gray-400 text-lg">Your racket has been listed successfully</p>
+                <p className="text-gray-400 text-lg">Your gear has been listed successfully</p>
               </motion.div>
               
               <div className="flex flex-col sm:flex-row gap-4 justify-center max-w-md mx-auto">
@@ -358,7 +361,7 @@ export default function SellPage() {
                   whileTap={{ scale: 0.95 }}
                   className="bg-white text-black py-3 px-6 rounded-xl font-semibold hover:bg-gray-100 transition-colors"
                 >
-                  List Another Racket
+                  List Another Item
                 </motion.button>
                 <motion.a
                   href="/marketplace"
@@ -387,7 +390,7 @@ export default function SellPage() {
               
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
                 <div className="space-y-2">
-                  <label className="block text-lg font-medium text-white">Racket Title</label>
+                  <label className="block text-lg font-medium text-white">Item Title</label>
                   <input
                     type="text"
                     required
@@ -418,7 +421,7 @@ export default function SellPage() {
                 </div>
 
                 <div className="space-y-2">
-                  <label className="block text-lg font-medium text-white">Racket Type</label>
+                  <label className="block text-lg font-medium text-white">Item Type</label>
                   <select
                     required
                     value={formData.type}
@@ -479,7 +482,7 @@ export default function SellPage() {
                 <textarea
                   required
                   rows={4}
-                  placeholder="Describe your racket's condition, history, and any notable features..."
+                  placeholder="Describe your item's condition, history, and any notable features..."
                   value={formData.description}
                   onChange={(e) => setFormData({ ...formData, description: e.target.value })}
                   className="w-full bg-white/5 border border-white/10 rounded-xl py-4 px-4 text-white text-lg placeholder-gray-400 focus:outline-none focus:border-white/30 focus:ring-2 focus:ring-white/10 transition-all resize-none"
@@ -496,7 +499,7 @@ export default function SellPage() {
               
               <div className="border-2 border-dashed border-white/20 rounded-xl p-8 text-center hover:border-white/30 transition-colors">
                 <Upload className="mx-auto mb-4 text-gray-400" size={48} />
-                <p className="text-gray-400 mb-2 text-lg">Upload photos of your racket</p>
+                <p className="text-gray-400 mb-2 text-lg">Upload photos of your gear</p>
                 <p className="text-yellow-400 mb-4 text-sm font-medium">
                   ⚠️ Minimum 3 images required
                 </p>
@@ -536,13 +539,13 @@ export default function SellPage() {
                     <h3 className="text-lg font-medium text-white mb-3">Image Preview:</h3>
                     <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
                       {formData.imageDataUrls.map((imageUrl, index) => (
-                        <div key={index} className="relative">
+                        <div key={index} className="relative bg-white/5 rounded-lg border border-white/20 p-2">
                           <img
                             src={imageUrl}
                             alt={`Preview ${index + 1}`}
-                            className="w-full h-24 object-cover rounded-lg border border-white/20"
+                            className="w-full h-40 object-contain rounded-lg"
                           />
-                          <div className="absolute top-1 right-1 bg-black/70 text-white text-xs px-1 rounded">
+                          <div className="absolute top-3 right-3 bg-black/70 text-white text-xs px-2 py-1 rounded">
                             {index + 1}
                           </div>
                         </div>
@@ -574,7 +577,7 @@ export default function SellPage() {
                 ) : formData.imageDataUrls.length < 3 ? (
                   `Upload ${3 - formData.imageDataUrls.length} More Image${3 - formData.imageDataUrls.length === 1 ? '' : 's'}`
                 ) : (
-                  'List My Racket'
+                  'List My Gear'
                 )}
               </motion.button>
             </div>

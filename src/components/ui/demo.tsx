@@ -292,9 +292,9 @@ const DemoOne = () => {
   };
 
   return (
-    <div className="w-full max-w-full relative overflow-x-hidden">
+    <div className="w-screen relative">
       {/* First Section - 3D Scene */}
-    <div className="h-screen w-full max-w-full relative flex flex-col justify-center items-center">
+    <div className="h-screen w-screen relative flex flex-col justify-center items-center">
       <div className="absolute inset-0">
         <Scene />
       </div>
@@ -320,7 +320,7 @@ const DemoOne = () => {
       </div>
 
       {/* What We Do Section */}
-      <section ref={whatWeDoRef} id="what-we-do" className="min-h-screen w-full max-w-full relative bg-black flex flex-col justify-center items-center py-20">
+      <section ref={whatWeDoRef} id="what-we-do" className="min-h-screen w-screen relative bg-black flex flex-col justify-center items-center py-20">
         {/* Animated Dramatic Spotlight Effect */}
         <div className="absolute inset-0 bg-black">
           {/* Upper left transitional spotlight - extended to cover whole section */}
@@ -439,7 +439,7 @@ const DemoOne = () => {
       </section>
 
       {/* About Us Section */}
-      <section ref={aboutUsRef} id="about" className="min-h-screen w-full max-w-full relative bg-black flex items-center py-20">
+      <section ref={aboutUsRef} id="about" className="min-h-screen w-screen relative bg-black flex items-center py-20">
         {/* Dramatic Spotlight Effect - matched to What We Do section */}
         <div className="absolute inset-0 bg-black">
           <motion.div 
@@ -477,7 +477,7 @@ const DemoOne = () => {
               variants={textVariants}
               transition={{ delay: 0.2 }}
             >
-              I&apos;m Ali, an avid squash player who&apos;s seen firsthand how expensive this sport can be. I created CourtCycle because I wanted to give players a reason to keep playing by making gear more affordable.
+              I&apos;m Ali, a lifelong squash player who&apos;s seen firsthand how expensive this sport can be. I created CourtCycle because I wanted to give players a reason to keep playing by making gear more affordable.
             </motion.p>
             
             <motion.p 
@@ -526,7 +526,7 @@ const DemoOne = () => {
       </section>
 
       {/* Our Mission Section */}
-      <section ref={missionRef} id="mission" className="min-h-screen w-full max-w-full relative bg-black flex items-center py-20">
+      <section ref={missionRef} id="mission" className="min-h-screen w-screen relative bg-black flex items-center py-20">
         {/* Dramatic Spotlight Effect - unique to Mission section */}
         <div className="absolute inset-0 bg-black">
           <motion.div 
