@@ -477,7 +477,7 @@ const DemoOne = () => {
               variants={textVariants}
               transition={{ delay: 0.2 }}
             >
-              I&apos;m Ali, a lifelong squash player who&apos;s seen firsthand how expensive this sport can be. I created CourtCycle because I wanted to give players a reason to keep playing by making gear more affordable.
+              I&apos;m Ali, an avid squash player who&apos;s seen firsthand how expensive this sport can be. I created CourtCycle because I wanted to give players a reason to keep playing by making gear more affordable.
             </motion.p>
             
             <motion.p 
@@ -509,7 +509,7 @@ const DemoOne = () => {
               title="Founder"
               handle="alihamdard"
               status="Founder & CEO"
-              contactText="Contact Ali"
+              contactText=""
               avatarUrl="/new.png"
               miniAvatarUrl="/new.png"
               showUserInfo={true}
