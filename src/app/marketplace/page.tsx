@@ -5,7 +5,6 @@ import { useEffect, useState } from 'react'
 import { motion } from 'framer-motion'
 import { Search, Filter, Plus, Heart, Star, DollarSign, Home, Settings, Truck, MapPin, CreditCard, Check, CheckCircle, AlertCircle, RefreshCw, Clock } from 'lucide-react'
 import { supabase } from '@/lib/supabase'
-import { SupabaseStatus } from '@/components/SupabaseStatus'
 
 interface RacketListing {
   id: string
@@ -423,9 +422,6 @@ export default function MarketplacePage() {
 
   return (
     <div className="min-h-screen bg-black text-white">
-      {/* Supabase Status Indicator */}
-      <SupabaseStatus />
-      
       {/* Marketplace Header */}
       <MarketplaceHeader />
 
