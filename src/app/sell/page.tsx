@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react'
 import { motion } from 'framer-motion'
 import { ArrowLeft, Upload, DollarSign, Info, Home, CheckCircle } from 'lucide-react'
 import { supabase } from '@/lib/supabase'
+import { SupabaseStatus } from '@/components/SupabaseStatus'
 
 // Marketplace Header Component
 const MarketplaceHeader = () => {
@@ -340,6 +341,9 @@ export default function SellPage() {
 
   return (
     <div className="min-h-screen bg-black text-white">
+      {/* Supabase Status Indicator */}
+      <SupabaseStatus />
+      
       {/* Marketplace Header */}
       <MarketplaceHeader />
 
