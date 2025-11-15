@@ -232,9 +232,20 @@ export default function MyListingsPage() {
     // Load user listings from Supabase
     const loadListings = async () => {
       try {
+        // Get the user's email from localStorage
+        const userEmail = localStorage.getItem('userEmail')
+        
+        if (!userEmail) {
+          console.log('No user email found - user has not created any listings yet')
+          setListings([])
+          return
+        }
+
+        // Only fetch listings that belong to this user
         const { data, error } = await supabase
           .from('listings')
           .select('*')
+          .eq('seller_email', userEmail)
           .order('created_at', { ascending: false })
 
         if (error) {

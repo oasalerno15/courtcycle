@@ -262,6 +262,9 @@ export default function SellPage() {
         return
       }
 
+      // Store user's email in localStorage for ownership tracking
+      localStorage.setItem('userEmail', formData.email)
+
       console.log('Listing created successfully:', data)
       setIsSubmitting(false)
       setIsSubmitted(true)
